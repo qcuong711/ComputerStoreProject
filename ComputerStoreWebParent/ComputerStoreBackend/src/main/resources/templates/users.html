@@ -60,8 +60,42 @@
 		</nav>
 	</div>
 	<div class="container-fluid">
+		<div class="d-flex align-items-center justify-content-center mt-2">
+			<h2>Users List</h2>
+		</div>
+		<div class="d-flex align-items-center justify-content-center mb-2 border" style="width: 150px; margin: 0 auto;">
+			<a th:href="@{/users/new}">Create New User</a>
+		</div>
+		
+		<div th:if="${message != null}" class="alert alert-success text-center">[[${message}]]</div>
+		
 		<div>
-			<h1>Welcome to ComputerStore Admin Control Panel</h1>
+			<table class="table table-responsive-xl table-hover table-bordered text-center">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">User ID</th>
+						<th scope="col">First Name</th>
+						<th scope="col">Last Name</th>
+						<th scope="col">E-mail</th>
+						<th scope="col">Enabled</th>
+						<th scope="col">Role</th>
+						<th scope="col">Photo</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user : ${listUsers}">
+						<td>[[${user.id}]]</td>
+						<td>[[${user.firstName}]]</td>
+						<td>[[${user.lastName}]]</td>
+						<td>[[${user.email}]]</td>
+						<td>[[${user.enabled}]]</td>
+						<td>[[${user.roles}]]</td>
+						<td></td>
+						<td>Edit &nbsp; Delete</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 	<div class="bg-secondary text-white text-center fixed-bottom">
