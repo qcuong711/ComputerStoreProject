@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width; initial-scale=1.0, minium-scale=1.0">
+
+	<title>Login - ComputerStore Admin</title>
+
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/css/all.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+	
+	<link rel="shortcut icon"  th:href="@{/images/webicon.png}">
+	
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container-fluid">
+
+	<div class="text-center p-5">
+		<h2 class="font-weight-bold text-primary">Login Admin Page</h2>
+	</div>
+	
+	<form th:action="@{/login}" method="post" style="max-width: 450px; margin: 0 auto">
+		<div class="border border-primary rounded p-3">
+			<div class="d-flex justify-content-center pb-3">
+				<img th:src="@{images/ComputerStorelogo.png}" />
+			</div>
+			<p>
+				<input type="email" name="email" class="form-control" placeholder="Enter your email" required/>
+			</p>
+			<p>
+				<input type="password" name="password" class="form-control" placeholder="Enter your password" required/>
+			</p>
+			<p class="text-center">
+				<input type="submit" value="Login" class="btn btn-primary" />
+			</p>
+		</div>
+	</form>
+	
+	<div th:if="${param.error}">
+		<p class="text-danger text-center">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+	</div>
+	
+</div>
+</body>
+</html>

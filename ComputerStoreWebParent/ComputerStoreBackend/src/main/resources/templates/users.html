@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width; initial-scale=1.0, minium-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width; initial-scale=1.0, minium-scale=1.0">
 
-<title>Home - ComputerStore Admin</title>
+	<title>Home - ComputerStore Admin</title>
 
-<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/css/all.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+	
+	<link rel="shortcut icon"  th:href="@{/images/webicon.png}">
+	
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </head>
 <body>
 	<div>
@@ -63,8 +68,8 @@
 		<div class="d-flex align-items-center justify-content-center mt-2">
 			<h2>Users List</h2>
 		</div>
-		<div class="d-flex align-items-center justify-content-center mb-2 border" style="width: 150px; margin: 0 auto;">
-			<a th:href="@{/users/new}">Create New User</a>
+		<div class="d-flex align-items-center justify-content-center mb-2" style="width: 150px; margin: 0 auto;">
+			<a class="btn btn-primary" th:href="@{/users/new}">Create New User</a>
 		</div>
 		
 		<div th:if="${message != null}" class="alert alert-success text-center">[[${message}]]</div>
@@ -73,13 +78,17 @@
 			<table class="table table-responsive-xl table-hover table-bordered text-center">
 				<thead class="thead-dark">
 					<tr>
-						<th scope="col">User ID</th>
+						<th scope="col">UserID</th>
+						
 						<th scope="col">First Name</th>
+						
 						<th scope="col">Last Name</th>
-						<th scope="col">E-mail</th>
+						
+						<th scope="col">Email</th>
+						
 						<th scope="col">Enabled</th>
+						
 						<th scope="col">Role</th>
-						<th scope="col">Photo</th>
 						<th scope="col"></th>
 					</tr>
 				</thead>
@@ -89,17 +98,102 @@
 						<td>[[${user.firstName}]]</td>
 						<td>[[${user.lastName}]]</td>
 						<td>[[${user.email}]]</td>
-						<td>[[${user.enabled}]]</td>
+						<td>
+							<a th:if="${user.enabled == true}" class="fas fa-check fa-1x" style="color:blue"></a>
+							<a th:if="${user.enabled == false}" class="fas fa-times fa-1x" style="color:red"></a>
+						</td>
 						<td>[[${user.roles}]]</td>
-						<td></td>
-						<td>Edit &nbsp; Delete</td>
+						<!-- <td><span class="fas fa-user-circle fa-1x"></span></td> -->
+						<td>
+							<a class="fas fa-edit fa-1x" th:href="@{'/users/edit/' + ${user.id}}" title="Edit user"></a>
+							&nbsp; 
+							<a class="fas fa-trash-alt fa-1x icon-red link-delete" th:userId="${user.id}" 
+								th:href="@{'/users/delete/' + ${user.id}}" title="Delete user"></a>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		
+		<div>
+			<nav>
+  				<ul class="pagination justify-content-center flex-wrap">
+  				
+  					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+  						<a class="page-link" 
+  							th:href="@{/users/page/1}">First</a>
+  					</li>
+   					
+   					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+   						<a class="page-link" 
+   							th:href="@{'/users/page/' + ${currentPage - 1}}">Previous</a>
+   					</li>
+
+					<th:block th:if="${totalPages <= 10}">					
+					<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
+						th:each="i : ${#numbers.sequence(1, totalPage)}">
+						<a class="page-link" th:href="@{'/users/page/' + ${i}}">[[${i}]]</a>
+					</li>
+					</th:block>
+					
+					<th:block th:if="${totalPages > 10}">
+						<th:block th:if="${currentPage <= 5 || currentPage > totalPage - 4}">
+							<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
+								th:each="i : ${#numbers.sequence(1, 5)}">
+								<a class="page-link" th:href="@{'/users/page/' + ${i}}">[[${i}]]</a>
+							</li>
+							
+							<a class="page-link" th:href="@{'/users/page/' + 6 }">...</a>
+							
+							<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
+								th:each="i : ${#numbers.sequence(totalPage - 4, totalPage)}">
+								<a class="page-link" th:href="@{'/users/page/' + ${i}}">[[${i}]]</a>
+							</li>
+						</th:block>
+					</th:block>
+
+    				<li th:class="${currentPage < totalPage ? 'page-item' : 'page-item disabled'}">
+    					<a class="page-link" th:href="@{'/users/page/' + ${currentPage + 1} }">Next</a>
+    				</li>
+    				
+    				
+    				<li th:class="${currentPage < totalPage ? 'page-item' : 'page-item disabled'}">
+    					<a class="page-link" th:href="@{'/users/page/' + ${totalPage} }">Last</a>
+    				</li>
+    				
+  				</ul>
+			</nav>
+		</div>
+		
+		<div class="modal fade text-center" id="confirmModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Confirm delete</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<span id="confirmText"></span>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-success" href="" id="yesButton">Yes</a>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+					</div>					
+				</div>
+			</div>			
+		</div>
 	</div>
-	<div class="bg-secondary text-white text-center fixed-bottom">
-		<h3>ComputerStore - Copyright &copy;B1710131</h3>
-	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".link-delete").on("click", function(e) {
+				e.preventDefault();
+				link = $(this);
+				userId = link.attr("UserId");
+				$("#yesButton").attr("href", link.attr("href"));
+				$("#confirmText").text("Delete user with ID " + userId + "?");
+				$("#confirmModal").modal();
+			});
+		});
+	</script>
 </body>
 </html>

@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
 @EntityScan({"com.qcuong.common.entity", "com.qcuong.admin.user"})
+
+// main entry point of Spring boot project
 public class ComputerStoreBackendApplication {
 
 	public static void main(String[] args) {

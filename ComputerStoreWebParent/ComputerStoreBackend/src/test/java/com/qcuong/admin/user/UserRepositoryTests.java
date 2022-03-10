@@ -10,6 +10,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
 import com.qcuong.common.entity.Role;
@@ -93,6 +96,30 @@ public class UserRepositoryTests {
 		User user = repo.getUserByEmail(email);
 		
 		assertThat(user).isNotNull();
+	}
+	
+	@Test
+	public void testcountbyID() {
+		Integer id = 10;
+		Long countById = repo.countById(id);
+		System.out.println("Pass");
+		
+		assertThat(countById).isNotNull().isGreaterThan(0);
+	}
+	
+	@Test
+	public void paginationTest() {
+		int pageNumber = 1;
+		int pageSize = 4;
+		
+		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+		Page<User> page = repo.findAll(pageable);
+		
+		List<User> listUsers = page.getContent();
+		listUsers.forEach(user -> System.out.println(user));
+		
+		assertThat(listUsers.size()).isEqualTo(pageSize);
+		
 	}
 	
 }
