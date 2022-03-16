@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+<div th:fragment="navbar">
+	<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+		<input type="submit"/>
+	</form>
+	<nav class="navbar navbar-expand-lg bg-light navbar-light">
+		<a class="navbar-brand" th:href="@{/}"> 
+		<img th:src="@{/images/ComputerStoreLogo.png}" />
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
+			<span class="navbar-toggler-icon"></span>			
+		</button>
+		<div class="collapse navbar-collapse" id="topNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
+					<a class="nav-link font-weight-bold" th:href="@{/users}">Users</a>
+				</li>
+				<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
+					<a class="nav-link font-weight-bold" th:href="@{/categories}">Categories</a>
+				</li>
+				<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
+					<a class="nav-link font-weight-bold" th:href="@{/brands}">Brands</a>
+				</li>
+				<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
+					<a class="nav-link font-weight-bold" th:href="@{/products}">Products</a>
+				</li>
+				<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
+					<a class="nav-link font-weight-bold" th:href="@{/customers}">Customers</a>
+				</li>
+				<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
+					<a class="nav-link font-weight-bold" th:href="@{/orders}">Orders</a>
+				</li>
+				<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Shipper')">
+					<a class="nav-link font-weight-bold" th:href="@{/shipping}">Shipping</a>
+				</li>
+				<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
+					<a class="nav-link font-weight-bold" th:href="@{/reports}">Reports</a>
+				</li>
+				<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
+					<a class="nav-link font-weight-bold" th:href="@{/newspapers}">Newspapers</a>
+				</li>
+				<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
+					<a class="nav-link font-weight-bold" th:href="@{/menu}">Menu</a>
+				</li>
+				<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
+					<a class="nav-link font-weight-bold" th:href="@{/settings}">Settings</a>
+				</li>
+				<li class="float-right">
+					<div class="border border-secondary d-flex rounded">
+						<div class="d-flex flex-column">
+							<span class="p-2 fas fa-user fa-2x text-center" style="color: black"></span>
+							<a class="p-2 nav-link" sec:authentication="principal.name"></a>
+						</div>
+						<div class="d-inline-block pr-2" style="margin:auto">
+							<a class="btn btn-outline-info text-info" id="editlink" th:href="@{/account}">Edit Profile</a>
+						</div>
+						<div class="d-inline-block pr-2" style="margin:auto">
+							<a class="btn btn-outline-danger text-danger" id="logoutlink" th:href="@{/logout}">Logout</a>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</div>
+</body>
+</html>

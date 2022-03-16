@@ -1,169 +1,111 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="viewport" content="width=device-width; initial-scale=1.0, minium-scale=1.0">
-
-	<title>[[${pageTitle}]]</title>
-
-	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-	<link rel="shortcut icon"  th:href="@{/images/webicon.png}">
-	
-	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-</head>
+<head th:replace="header :: page_head('Enter User Information')"></head>
 <body>
-	<div>
-		<nav class="navbar navbar-expand-lg bg-light navbar-light">
-			<a class="navbar-brand" th:href="@{/}"> 
-			<img th:src="@{/images/ComputerStoreLogo.png}" />
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
-				<span class="navbar-toggler-icon"></span>			
-			</button>
-			<div class="collapse navbar-collapse" id="topNavbar">
-				<ul class="navbar-nav">
-					<li class="nav-item">
-						<a class="nav-link font-weight-bold" th:href="@{/users}">Users</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link font-weight-bold" th:href="@{/categories}">Categories</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link font-weight-bold" th:href="@{/brands}">Brands</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link font-weight-bold" th:href="@{/products}">Products</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link font-weight-bold" th:href="@{/customers}">Customers</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link font-weight-bold" th:href="@{/orders}">Orders</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link font-weight-bold" th:href="@{/shipping}">Shipping</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link font-weight-bold" th:href="@{/reports}">Reports</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link font-weight-bold" th:href="@{/newspapers}">Newspapers</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link font-weight-bold" th:href="@{/menu}">Menu</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link font-weight-bold" th:href="@{/settings}">Settings</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-	</div>
-	<div class="container-fluid">
-		<div class="d-flex align-items-center justify-content-center mt-2">
-			<h2>[[${pageTitle}]]</h2>
-		</div>
-		
-		<form th:action="@{/users/save}" method="post" class="w-50" style="margin: 0 auto" 
-			th:object="${user}" onsubmit="return checkEmailUnique(this);">
-			<input type="hidden" th:field="*{id}" />
-			<div class="border border-secondary rounded p-3">
-			
-				<div class="form-group row">
-					<label class="col-sm-4 col-form-label text-right">First Name</label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" th:field="*{firstName}" required minlength="2" maxlength="20" />
-					</div>
-				</div>
-				
-				<div class="form-group row">
-					<label class="col-sm-4 col-form-label text-right">Last Name</label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control" th:field="*{lastName}" required minlength="2" maxlength="20" />
-					</div>
-				</div>
-			
-				<div class="form-group row">
-					<label class="col-sm-4 col-form-label text-right">Email</label>
-					<div class="col-sm-8">
-						<input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128" />
-					</div>
-				</div>
-				
-				<div class="form-group row">
-					<label class="col-sm-4 col-form-label text-right">Password</label>
-					<div class="col-sm-8">
-						<input th:if="${user.id == null}" type="password" class="form-control" 
-						th:field="*{password}" required minlength="8" maxlength="30" />
-						
-						<input th:if="${user.id != null}" type="password" class="form-control" 
-						th:field="*{password}" placeholder="(this field can be empty)" minlength="8" maxlength="30" />
-					</div>
-				</div>
-				
-				<div class="form-group row ">
-					<label class="col-sm-4 col-form-label text-right">Role</label>
-					<div class="col-sm-8 mt-2">
-						<th:block th:each="role : ${listRoles}">
-							<input type="checkbox" th:field="*{roles}" 
-								th:text="${role.name}"
-								th:value="${role.id}"
-								class="mr-1" />
-							<br/>
-						</th:block>
-					</div>
-				</div>
-				
-				<div class="form-group row">
-					<label class="col-sm-4 col-form-label text-right">Enable</label>
-					<div class="col-sm-8 mt-2">
-						<input type="checkbox" th:field="*{enabled}" />
-					</div>
-				</div>
-							
-				<div class="text-center">
-					<input type="submit" value="Save" class="btn btn-primary mt-3 mr-3" />
-					<input type="submit" value="Cancel" class="btn btn-danger mt-3 ml-3" id="buttonCancel" />
-				</div>
-			</div>
-		</form>
 
-	</div>
-	<div class="bg-secondary text-white text-center fixed-bottom">
-		<h3>ComputerStore - Copyright &copy;B1710131</h3>
+<div class="container-fluid">
+	<div th:replace="navbar :: navbar"></div>
+
+	<div class="d-flex align-items-center justify-content-center mt-2">
+		<h2>[[${pageTitle}]]</h2>
 	</div>
 	
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#buttonCancel").on("click", function() {
-			window.location = "[[@{/users}]]";
-		});
+	<form th:action="@{/users/save}" method="post" class="w-50" style="margin: 0 auto" 
+		th:object="${user}" onsubmit="return checkEmailUnique(this);">
+		<input type="hidden" th:field="*{id}" />
+		<div class="border border-secondary rounded p-3">
+		
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label text-right">First Name</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" th:field="*{firstName}" required minlength="2" maxlength="20" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label text-right">Last Name</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" th:field="*{lastName}" required minlength="2" maxlength="20" />
+				</div>
+			</div>
+		
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label text-right">Email</label>
+				<div class="col-sm-8">
+					<input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label text-right">Password</label>
+				<div class="col-sm-8">
+					<input th:if="${user.id == null}" type="password" class="form-control" 
+					th:field="*{password}" required minlength="8" maxlength="30" />
+					
+					<input th:if="${user.id != null}" type="password" class="form-control" 
+					th:field="*{password}" placeholder="(this field can be empty)" minlength="8" maxlength="30" />
+				</div>
+			</div>
+			
+			<div class="form-group row ">
+				<label class="col-sm-4 col-form-label text-right">Role</label>
+				<div class="col-sm-8 mt-2">
+					<th:block th:each="role : ${listRoles}">
+						<input type="checkbox" th:field="*{roles}" 
+							th:text="${role.name}"
+							th:value="${role.id}"
+							class="mr-1" />
+						<br/>
+					</th:block>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label text-right">Enable</label>
+				<div class="col-sm-8 mt-2">
+					<input type="checkbox" th:field="*{enabled}" />
+				</div>
+			</div>
+						
+			<div class="text-center">
+				<input type="submit" value="Save" class="btn btn-primary mt-3 mr-3" />
+				<input type="submit" value="Cancel" class="btn btn-danger mt-3 ml-3" id="buttonCancel" />
+			</div>
+		</div>
+	</form>
+
+</div>
+</body>
+<script>
+function checkEmailUnique(form) {
+	url = "[[@{/users/check_email}]]";
+	userId = $("#id").val();
+	userEmail = $("#email").val();
+	csrfValue = $("input[name='_csrf']").val();
+	
+	params = {id: userId, email: userEmail, _csrf: csrfValue};
+	
+	
+	$.post(url, params, function(response) {
+		if (response == "OK"){
+			form.submit();
+		} else if (response == "Duplicated") {
+			alert("Email " + userEmail + " existed. Please use another email!");
+		} else {
+			alert("Unknown error!");
+		}
+	}).fail(function(){
+		alert("Could not connect to the server!");
 	});
 	
-	function checkEmailUnique(form) {
-		url = "[[@{/users/check_email}]]";
-		userId = $("#id").val();
-		userEmail = $("#email").val();
-		csrfValue = $("input[name='_csrf']").val();
-		
-		params = {id: userId, email: userEmail, _csrf: csrfValue};
-		
-		
-		$.post(url, params, function(response) {
-			if (response == "OK"){
-				form.submit();
-			} else if (response == "Duplicated") {
-				alert("Email " + userEmail + " existed. Please use another email!");
-			} else {
-				alert("Unknown error!");
-			}
-		}).fail(function(){
-			alert("Could not connect to the server!");
-		});
-		
-		return false;
-	}
+	return false;
+}
+
+$(document).ready(function() {
+	$("#buttonCancel").on("click", function() {
+		window.location = "[[@{/users}]]";
+	});
+});
 </script>
-</body>
+<script th:src="@{/js/all.js}"></script>
 </html>
