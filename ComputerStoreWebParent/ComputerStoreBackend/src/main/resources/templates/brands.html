@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="header :: page_head('Computer Store Admin - categories')"></head>
+<head th:replace="header :: page_head('Computer Store Admin - brands')"></head>
 <body>
 <div th:replace="navbar :: navbar"></div>
 <div class="container-fluid">
 	<div class="d-flex align-items-center justify-content-center mt-2">
-		<h2>Categories List</h2>
+		<h2>Brand List</h2>
 	</div>
 	<div class="d-flex align-items-center justify-content-center mb-2" style="width: 150px; margin: 0 auto;">
-		<a class="btn btn-primary" th:href="@{/categories/new}">Create Category</a>
+		<a class="btn btn-primary" th:href="@{/brands/new}">Create Brand</a>
 	</div>
 	
 	<div th:if="${message != null}" class="alert alert-success text-center">[[${message}]]</div>
@@ -20,27 +20,28 @@
 				<tr>
 					<th scope="col">ID</th>
 					
-					<th scope="col">Category Name</th>
+					<th scope="col">Brand Name</th>
 					
-					<th scope="col">Enabled</th>
+					<th scope="col">Category</th>
 					
 					<th scope="col"></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="category : ${listCategories}">
-					<td>[[${category.id}]]</td>
-					<td>[[${category.name}]]</td>
+				<tr th:each="brand : ${listBrands}">
+					<td>[[${brand.id}]]</td>
+					<td>[[${brand.name}]]</td>
 					<td>
-						<a th:if="${category.enabled == true}" class="fas fa-check fa-1x" style="color:blue"></a>
-						<a th:if="${category.enabled == false}" class="fas fa-times fa-1x" style="color:red"></a>
+						<th:block th:each="cat : ${brand.categories}">
+						<span th:text="'(' + ${cat.name} + ')'"></span>
+						</th:block>
 					</td>
-					<!-- <td><span class="fas fa-category-circle fa-1x"></span></td> -->
+					<!-- <td><span class="fas fa-brand-circle fa-1x"></span></td> -->
 					<td>
-						<a class="fas fa-edit fa-1x" th:href="@{'/categories/edit/' + ${category.id}}" title="Edit category"></a>
+						<a class="fas fa-edit fa-1x" th:href="@{'/brands/edit/' + ${brand.id}}" title="Edit brand"></a>
 						&nbsp; 
-						<a class="fas fa-trash-alt fa-1x link-delete" style="color: red" th:categoryId="${category.id}" 
-							th:href="@{'/categories/delete/' + ${category.id}}" title="Delete category"></a>
+						<a class="fas fa-trash-alt fa-1x link-delete" style="color: red" th:brandId="${brand.id}" 
+							th:href="@{'/brands/delete/' + ${brand.id}}" title="Delete brand"></a>
 					</td>
 				</tr>
 			</tbody>
@@ -53,18 +54,18 @@
  				
  					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
  						<a class="page-link" 
- 							th:href="@{/categories/page/1}">First</a>
+ 							th:href="@{/brands/page/1}">First</a>
  					</li>
   					
   					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
   						<a class="page-link" 
-  							th:href="@{'/categories/page/' + ${currentPage - 1}}">Previous</a>
+  							th:href="@{'/brands/page/' + ${currentPage - 1}}">Previous</a>
   					</li>
 
 				<th:block th:if="${totalPages <= 10}">					
 				<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
 					th:each="i : ${#numbers.sequence(1, totalPage)}">
-					<a class="page-link" th:href="@{'/categories/page/' + ${i}}">[[${i}]]</a>
+					<a class="page-link" th:href="@{'/brands/page/' + ${i}}">[[${i}]]</a>
 				</li>
 				</th:block>
 				
@@ -72,25 +73,25 @@
 					<th:block th:if="${currentPage <= 5 || currentPage > totalPage - 4}">
 						<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
 							th:each="i : ${#numbers.sequence(1, 5)}">
-							<a class="page-link" th:href="@{'/categories/page/' + ${i}}">[[${i}]]</a>
+							<a class="page-link" th:href="@{'/brands/page/' + ${i}}">[[${i}]]</a>
 						</li>
 						
-						<a class="page-link" th:href="@{'/categories/page/' + 6 }">...</a>
+						<a class="page-link" th:href="@{'/brands/page/' + 6 }">...</a>
 						
 						<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
 							th:each="i : ${#numbers.sequence(totalPage - 4, totalPage)}">
-							<a class="page-link" th:href="@{'/categories/page/' + ${i}}">[[${i}]]</a>
+							<a class="page-link" th:href="@{'/brands/page/' + ${i}}">[[${i}]]</a>
 						</li>
 					</th:block>
 				</th:block>
 
    				<li th:class="${currentPage < totalPage ? 'page-item' : 'page-item disabled'}">
-   					<a class="page-link" th:href="@{'/categories/page/' + ${currentPage + 1} }">Next</a>
+   					<a class="page-link" th:href="@{'/brands/page/' + ${currentPage + 1} }">Next</a>
    				</li>
    				
    				
    				<li th:class="${currentPage < totalPage ? 'page-item' : 'page-item disabled'}">
-   					<a class="page-link" th:href="@{'/categories/page/' + ${totalPage} }">Last</a>
+   					<a class="page-link" th:href="@{'/brands/page/' + ${totalPage} }">Last</a>
    				</li>
    				
  				</ul>
@@ -122,9 +123,9 @@
 		$(".link-delete").on("click", function(e) {
 			e.preventDefault();
 			link = $(this);
-			categoryId = link.attr("categoryId");
+			brandId = link.attr("brandId");
 			$("#yesButton").attr("href", link.attr("href"));
-			$("#confirmText").text("Delete this category (ID " + categoryId + ")?");
+			$("#confirmText").text("Delete this brand (ID " + brandId + ")?");
 			$("#confirmModal").modal();
 		});
 	});

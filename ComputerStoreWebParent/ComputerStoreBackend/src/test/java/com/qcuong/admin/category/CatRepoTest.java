@@ -2,6 +2,7 @@ package com.qcuong.admin.category;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,16 @@ public class CatRepoTest {
 		
 	}
 	*/
+	
+	@Test
+	public void TestA() {
+		Category parent = new Category(3);
+		Category hp = new Category("HeadPhone", parent);
+		Category keyb = new Category("Keyboard", parent);
+		Category mice = new Category("Computer Mice", parent);
+		
+		repo.saveAll(List.of(hp, keyb, mice));
+	}
 	
 	@Test
 	public void testGetCat() {
