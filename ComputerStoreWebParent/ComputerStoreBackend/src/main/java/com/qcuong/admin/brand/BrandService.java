@@ -12,7 +12,7 @@ import com.qcuong.common.entity.Brand;
 
 @Service
 public class BrandService {
-	static final int BRANDS_PER_PAGE = 6;
+	public static final int BRANDS_PER_PAGE = 6;
 	
 	@Autowired
 	private BrandRepository repo;
@@ -37,5 +37,23 @@ public class BrandService {
 	
 	public void delete(int id) {
 		repo.deleteById(id);
+	}
+	
+	public boolean checkUnique(Integer id, String name) {
+		boolean isCreatingNew = (id == null);
+		
+		Brand brandByName = repo.findByName(name);
+		
+		if (brandByName == null) return true;
+		
+		if (isCreatingNew) {
+			if (brandByName != null) return false; 
+		} else {
+			if (brandByName.getId() != id) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }

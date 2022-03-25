@@ -2,8 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="header :: page_head('Enter User Information')"></head>
 <body>
-
-<div class="container-fluid">
 	<div th:replace="navbar :: navbar"></div>
 
 	<div class="d-flex align-items-center justify-content-center mt-2">
@@ -69,12 +67,10 @@
 						
 			<div class="text-center">
 				<input type="submit" value="Save" class="btn btn-primary mt-3 mr-3" />
-				<input type="submit" value="Cancel" class="btn btn-danger mt-3 ml-3" id="buttonCancel" />
 			</div>
 		</div>
 	</form>
 
-</div>
 </body>
 <script>
 function checkEmailUnique(form) {
@@ -101,11 +97,6 @@ function checkEmailUnique(form) {
 	return false;
 }
 
-$(document).ready(function() {
-	$("#buttonCancel").on("click", function() {
-		window.location = "[[@{/users}]]";
-	});
-});
 </script>
 <script th:src="@{/js/all.js}"></script>
 </html>

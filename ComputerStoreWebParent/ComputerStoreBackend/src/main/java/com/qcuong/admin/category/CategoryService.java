@@ -58,8 +58,6 @@ public class CategoryService {
 	}
 	
 	public void delete(Integer id) {
-		Long countById = repo.countById(id);
-		
 		repo.deleteById(id);
 	}
 }

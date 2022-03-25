@@ -11,13 +11,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.qcuong.admin.category.CategoryService;
 import com.qcuong.common.entity.Brand;
+import com.qcuong.common.entity.Category;
 
 @Controller
 public class BrandController {
 	
 	@Autowired
 	private BrandService service;
+	
+	@Autowired
+	private CategoryService catService;
 	
 	@GetMapping("/brands")
 	public String listFirstPage(Model model) {
@@ -48,7 +53,9 @@ public class BrandController {
 	
 	@GetMapping("/brands/new")
 	public String newBrand(Model model) {
+		List<Category> listCategories = catService.listCategoriesInForm();
 		
+		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("brand", new Brand());
 		model.addAttribute("pageTitle", "Create New Brand");
 		
@@ -66,8 +73,10 @@ public class BrandController {
 	@GetMapping("/brands/edit/{id}")
 	public String editBrand(@PathVariable(name = "id") int id, Model model, RedirectAttributes redirectAttributes) {
 			Brand brand = service.get(id);
+			List<Category> listCat = catService.listCategoriesInForm();
 			
 			model.addAttribute("brand", brand);
+			model.addAttribute("listCategories", listCat);
 			model.addAttribute("pageTitle", "Edit Brand with ID " + id);
 
 			return "brand_form";

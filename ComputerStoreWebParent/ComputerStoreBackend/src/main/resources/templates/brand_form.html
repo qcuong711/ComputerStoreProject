@@ -3,7 +3,6 @@
 <head th:replace="header :: page_head('Enter Brand Information')"></head>
 <body>
 
-<div class="container-fluid">
 	<div th:replace="navbar :: navbar"></div>
 
 	<div class="d-flex align-items-center justify-content-center mt-2">
@@ -24,42 +23,42 @@
 			</div>
 			
 			<div class="form-group row ">
-				<label class="col-sm-4 col-form-label text-right">Parent Brand</label>
-				
-			</div>
-			
-			<div class="form-group row">
-				<label class="col-sm-4 col-form-label text-right">Enable</label>
-
+				<label class="col-sm-4 col-form-label text-right">Select Categories</label>
+				<div class="col-sm-8">
+					<select class="form-control" th:field="*{categories}" multiple required
+						style="resize: vertical; height: 200px">
+						<th:block th:each="cat : ${listCategories}">
+						<option th:value="${cat.id}">[[${cat.name}]]</option>
+						</th:block>
+					</select>
+				</div>
 			</div>
 						
 			<div class="text-center">
 				<input type="submit" value="Save" class="btn btn-primary mt-3 mr-3" />
-				<input type="submit" value="Cancel" class="btn btn-danger mt-3 ml-3" id="buttonCancel" />
 			</div>
 		</div>
 	</form>
 
-</div>
 </body>
 <script type="text/javascript">
 moduleURL = "[[@{/brands}]]";
 
 function checkUnique(form) {
-	catId = $("#id").val();
-	catName = $("#name").val();
+	brandId = $("#id").val();
+	brandName = $("#name").val();
 	
 	csrfValue = $("input[name='_csrf']").val();
 	
 	url = "[[@{/brands/check_unique}]]";
 	
-	params = {id: catId, name: catName, _csrf: csrfValue};
+	params = {id: brandId, name: brandName, _csrf: csrfValue};
 	
 	$.post(url, params, function(response) {
 		if (response == "OK"){
 			form.submit();
 		} else if (response == "Duplicated") {
-			alert("brand " + catName + " existed!");
+			alert("brand " + brandName + " existed!");
 		} else {
 			alert("Unknown error!");
 		}
@@ -70,11 +69,6 @@ function checkUnique(form) {
 	return false;
 }
 
-$(document).ready(function() {
-	$("#buttonCancel").on("click", function() {
-		window.location = "[[@{/brands}]]";
-	});
-});
 </script>
 <script th:src="@{/js/all.js}"></script>
 </html>
