@@ -1,6 +1,7 @@
 package com.qcuong.common.entity;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="products")
@@ -40,6 +42,9 @@ public class Product {
 	
 	private float discount;
 	
+	@Column(unique = true, length = 64)
+	private String endURL;
+	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
@@ -49,7 +54,7 @@ public class Product {
 	private Brand brand;
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-	private Set<ProductImage> images = new HashSet<>();
+	private List<ProductImage> images = new ArrayList<>();
 	
 	private String avatar; 
 
@@ -116,6 +121,14 @@ public class Product {
 	public void setDiscount(float discount) {
 		this.discount = discount;
 	}
+	
+	public String getEndURL() {
+		return endURL;
+	}
+
+	public void setEndURL(String endURL) {
+		this.endURL = endURL;
+	}
 
 	public Category getCategory() {
 		return category;
@@ -133,15 +146,15 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public Set<ProductImage> getImages() {
+	public List<ProductImage> getImages() {
 		return images;
 	}
 
-	public void setImages(Set<ProductImage> images) {
+	public void setImages(List<ProductImage> images) {
 		this.images = images;
 	}
 	
-	public void addExtraImage(String imageName) {
+	public void addAdditionalImage(String imageName) {
 		this.images.add(new ProductImage(imageName, this));
 	}
 
@@ -152,4 +165,22 @@ public class Product {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+	
+	@Transient
+	public String getAvatarPath() {
+		if (avatar == null) {
+			return "/images/img-product-default.png";
+		}
+		
+		return "/product-images/" + this.id + "/" + this.avatar;
+	}
+	
+	@Transient
+	public float getDiscountSellingPrice() {
+		if(discount > 0) {
+			return sellingPrice * ((100 - discount) / 100);
+		}
+		return this.sellingPrice;	
+	}
+	
 }

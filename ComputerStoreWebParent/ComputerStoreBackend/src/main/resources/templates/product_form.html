@@ -9,14 +9,14 @@
 	</div>
 	
 	<form th:action="@{/products/save}" method="post" style="margin: 0 auto; max-width: 1150px" onsubmit="return checkUnique(this)" 
-		th:object="${product}">
+		enctype="multipart/form-data" th:object="${product}">
 		<input type="hidden" th:field="*{id}" />
 		<div class="border border-secondary rounded p-3">
 		
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label text-right">Product Name</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" th:field="*{name}" required minlength="16" maxlength="512" />
+					<input type="text" class="form-control" th:field="*{name}" required minlength="8" maxlength="512" />
 				</div>
 			</div>
 			
@@ -35,10 +35,53 @@
 				<label class="col-sm-2 col-form-label text-right">Category</label>
 				<div class="col-sm-4">
 					<select th:field = "*{category}" class="form-control" required>
-						
 					</select>
 				</div>
 			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label text-right">End URL</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" th:field="*{endURL}" required minlength="2" maxlength="64" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label text-right">Avatar</label>
+				<div class="col-sm-4" style="max-height:250px; max-width:250px; overflow: hidden">
+					<img id="thumbnail" alt="Product Image Avatar" class="img-fluid" 
+					 th:src="@{${product.avatarPath}}"/>
+				</div>
+				<div>
+					<input type="file" id="fileImage" name="fileImage" accept="image/png, image/jpg" onchange="loadFile(event)" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label text-right">Additional Image</label>
+				<div class="col-sm-3" style="max-height:250px; max-width:250px; overflow: hidden">
+					<img id="addThumbnail1" alt="Product Image 1" class="img-fluid" 
+					 th:src="@{${additionalImage1.imagePath}}"/>
+					 
+					 <input class="pt-1" type="file" accept="image/png, image/jpg" onchange="loadFile1(event)" />
+				</div>
+				
+				<div class="col-sm-3" style="max-height:250px; max-width:250px; overflow: hidden">
+					<img id="addThumbnail2" alt="Product Image 2" class="img-fluid" 
+					 th:src="@{${additionalImage2.imagePath}}"/>
+					 
+					 <input class="pt-1" type="file" accept="image/png, image/jpg" onchange="loadFile2(event)" />
+				</div>
+				
+				<div class="col-sm-3" style="max-height:250px; max-width:250px; overflow: hidden">
+					<img id="addThumbnail3" alt="Product Image 3" class="img-fluid" 
+					 th:src="@{${additionalImage3.imagePath}}"/>
+					 
+					 <input class="pt-1" type="file" accept="image/png, image/jpg" onchange="loadFile3(event)" />
+				</div>
+				
+			</div>
+			
 			
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label text-right">In Stock</label>
@@ -62,7 +105,7 @@
 			</div>
 			
 			<div class="form-group row">
-				<label class="col-sm-2 col-form-label text-right">Discount</label>
+				<label class="col-sm-2 col-form-label text-right">Discount (%)</label>
 				<div class="col-sm-3">
 					<input type="text" class="form-control" th:field="*{discount}" />
 				</div>
@@ -131,6 +174,67 @@ $(document).ready(function() {
 	});
 	getCategories();
 });
+/*
+$(document).ready(function() {
+	$("#fileImage").change(function(){
+		fileSize = this.file[0].size;
+		
+		if (fileSize > 1024*1024) {
+			this.setCustomValidity("Image must be < 1MB");
+			this.reportValidity();
+		} else {
+			this.setCustomValidity("");
+			showImageThumbnail(this);
+		}
+	});
+});
+
+function showImageThumbnail(fileInput) {
+	var file = fileInput.files[0];
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		$("#thumbnail").attr("src", e.target.result);
+	};
+	
+	reader.readAsDataURL(file);
+}
+*/
+var loadFile = function(event) {
+   var reader = new FileReader();
+   reader.onload = function() {
+	   var output = document.getElementById("thumbnail");
+	   output.src = reader.result;
+   };
+   reader.readAsDataURL(event.target.files[0]);
+};
+
+var loadFile1 = function(event) {
+	   var reader = new FileReader();
+	   reader.onload = function() {
+		   var output = document.getElementById("addThumbnail1");
+		   output.src = reader.result;
+	   };
+	   reader.readAsDataURL(event.target.files[0]);
+	};
+
+var loadFile2 = function(event) {
+	   var reader = new FileReader();
+	   reader.onload = function() {
+		   var output = document.getElementById("addThumbnail2");
+		   output.src = reader.result;
+	   };
+	   reader.readAsDataURL(event.target.files[0]);
+	};
+	
+var loadFile3 = function(event) {
+	   var reader = new FileReader();
+	   reader.onload = function() {
+		   var output = document.getElementById("addThumbnail3");
+		   output.src = reader.result;
+	   };
+	   reader.readAsDataURL(event.target.files[0]);
+	};
+
 
 function getCategories(){
 	brandId = dropdownBrands.val();
@@ -142,6 +246,7 @@ function getCategories(){
 		});	
 	});
 }
+
 </script>
 <script th:src="@{/js/all.js}"></script>
 </html>

@@ -23,7 +23,10 @@ public class Category {
 	
 	@Column(length=128, nullable = false, unique = true)
 	private String name;
-		
+	
+	@Column(length = 64, unique = true)
+	private String endURL;
+	
 	private boolean enabled;
 	
 	@OneToOne
@@ -69,6 +72,14 @@ public class Category {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getEndURL() {
+		return endURL;
+	}
+
+	public void setEndURL(String endURL) {
+		this.endURL = endURL;
 	}
 
 	public boolean isEnabled() {

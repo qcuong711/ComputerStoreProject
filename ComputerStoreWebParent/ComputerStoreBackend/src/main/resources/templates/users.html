@@ -60,19 +60,19 @@
  				<ul class="pagination justify-content-center flex-wrap">
  				
  					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
- 						<a class="page-link" 
- 							th:href="@{/users/page/1}">First</a>
+ 						<a class="page-link fas fa-fast-backward fa-lg" 
+ 							th:href="@{/users/page/1}"></a>
  					</li>
   					
   					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-  						<a class="page-link" 
-  							th:href="@{'/users/page/' + ${currentPage - 1}}">Previous</a>
+  						<a class="page-link fas fa-angle-left fa-lg" 
+  							th:href="@{'/users/page/' + ${currentPage - 1}}"></a>
   					</li>
 
 				<th:block th:if="${totalPages <= 10}">					
 				<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
 					th:each="i : ${#numbers.sequence(1, totalPage)}">
-					<a class="page-link" th:href="@{'/users/page/' + ${i}}">[[${i}]]</a>
+					<a class="page-link" style="font-size: 0.8em" th:href="@{'/users/page/' + ${i}}">[[${i}]]</a>
 				</li>
 				</th:block>
 				
@@ -80,25 +80,25 @@
 					<th:block th:if="${currentPage <= 5 || currentPage > totalPage - 4}">
 						<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
 							th:each="i : ${#numbers.sequence(1, 5)}">
-							<a class="page-link" th:href="@{'/users/page/' + ${i}}">[[${i}]]</a>
+							<a class="page-link" style="font-size: 0.8em" th:href="@{'/users/page/' + ${i}}">[[${i}]]</a>
 						</li>
 						
 						<a class="page-link" th:href="@{'/users/page/' + 6 }">...</a>
 						
 						<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" 
 							th:each="i : ${#numbers.sequence(totalPage - 4, totalPage)}">
-							<a class="page-link" th:href="@{'/users/page/' + ${i}}">[[${i}]]</a>
+							<a class="page-link" style="font-size: 0.8em" th:href="@{'/users/page/' + ${i}}">[[${i}]]</a>
 						</li>
 					</th:block>
 				</th:block>
 
    				<li th:class="${currentPage < totalPage ? 'page-item' : 'page-item disabled'}">
-   					<a class="page-link" th:href="@{'/users/page/' + ${currentPage + 1} }">Next</a>
+   					<a class="page-link fas fa-angle-right fa-lg" th:href="@{'/users/page/' + ${currentPage + 1} }"></a>
    				</li>
    				
    				
    				<li th:class="${currentPage < totalPage ? 'page-item' : 'page-item disabled'}">
-   					<a class="page-link" th:href="@{'/users/page/' + ${totalPage} }">Last</a>
+   					<a class="page-link page-link fas fa-fast-forward fa-lg" th:href="@{'/users/page/' + ${totalPage} }"></a>
    				</li>
    				
  				</ul>

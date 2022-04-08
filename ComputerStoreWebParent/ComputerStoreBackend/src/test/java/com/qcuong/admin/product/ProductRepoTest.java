@@ -48,7 +48,7 @@ public class ProductRepoTest {
 		Product product = repo.findById(pId).get();
 		
 		//product.setAvatar("avatar");
-		product.addExtraImage("e_img_2");
+		product.addAdditionalImage("e_img_2");
 		
 		repo.save(product);
 	}

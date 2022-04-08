@@ -43,7 +43,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// access for Spring Security
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().authenticated()
+		http.authorizeRequests()
+		.antMatchers("/users/**", "/categories/**", "/brands/**", "/products/**").hasAuthority("Admin")
+		.anyRequest().authenticated()
 		.and().formLogin().loginPage("/login").usernameParameter("email").permitAll()
 		.and().logout().permitAll();
 	}
@@ -57,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/images/**", "/webjars/**", "/fontawesome/**", "style.css", "/js/**");
+		web.ignoring().antMatchers("/images/**", "/webjars/**", "/fontawesome/**", "/style.css", "/js/**");
 	}
 
 }
