@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: page_head('Order Information')"></head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="d-flex align-items-center justify-content-center mt-2">
+	<h2>[[${pageTitle}]]</h2>
+</div>
+<div class="row mb-2">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<form th:action="@{/orders/save}" method="post" style="margin: 0 auto" th:object="${order}">
+			<div class="border border-secondary rounded p-3">
+			
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">Name</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" th:field="*{customerName}" required minlength="2" maxlength="30" readonly/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">Phone</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" th:field="*{phoneNumber}" required minlength="2" maxlength="64" readonly/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">Email</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" th:field="*{email}" required minlength="2" maxlength="64" readonly/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">Address</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" th:field="*{address}" required minlength="2" maxlength="64" readonly/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">Postal Code</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" th:field="*{postalCode}" required minlength="2" maxlength="64" readonly/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">Country</label>
+					<div class="col-sm-10 pt-2">
+						<input type="text" class="form-control" th:field="*{country}" required minlength="2" maxlength="64" readonly/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">Order Time</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" th:field="*{orderTime}" required minlength="2" maxlength="64" readonly/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">Deliver Days</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" th:field="*{deliverDays}" required minlength="2" maxlength="64" readonly/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">Total</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" th:field="*{total}" required minlength="2" maxlength="64" readonly/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">Status</label>
+					<div class="col-sm-10 mt-1">
+						<select th:field="*{status}">
+							<option th:each="os : ${T(com.qcuong.common.entity.OrderStatus).values()}" 
+								th:value="${os}" th:text="${os}" />
+						</select>
+					</div>
+				</div>
+				
+				<hr>
+				
+				<div class="text-center">
+					<h3><u>Product List</u></h3>
+				</div>
+
+				<th:block th:each="detail, status : ${order.orderDetails}">
+				<div class="row border rounded ml-3 mr-3 mb-2">
+					<div class="col-sm-1 my-auto text-center">
+						<div class="div-count">[[${status.count}]]</div>
+					</div>
+					<div class="col-sm-2 m-1">
+						<img th:src="@{${detail.product.avatarPath}}" class="img-fluid" />
+					</div>
+					<div class="col-sm-5 my-auto">
+						<p>[[${detail.product.name}]]</p>
+					</div>
+					<div class="col-sm-3 my-auto text-center">
+						<p>[[${detail.product.discountSellingPrice}]]$ X [[${detail.quantity}]] = [[${detail.unitPrice}]]$</p>
+					</div>
+				</div>
+				</th:block>
+				
+				<div class="text-center">
+					<h4>Product Total: <span style="color:blue">[[${order.cartTotal}]]$</span></h4>
+					<h4>Shipping Fee: <span style="color:blue">[[${order.shippingCost}]]$</span></h4>
+					<h4 style="color:blue">Total: [[${order.total}]]$</h4>
+				</div>
+				
+				<hr>
+				
+				<div class="text-center">
+					<h3><u>Order Tracking</u></h3>
+				</div>
+				
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-8">
+						<table class="table table-bordered table-border">
+							<thead>
+								<tr class="text-center">
+									<th>Time</th>
+									<th>Status</th>
+									<th>Detail</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="text-center" th:each = "track : ${order.orderTracks}">
+									<td>[[${track.updateTime}]]</td>
+									<td>[[${track.status}]]</td>
+									<td>[[${track.notes}]]</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-2"></div>
+				</div>
+				
+				<div class="text-center">
+					<input type="submit" value="Save" class="btn btn-primary mt-3 mr-3" />
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="col-1"></div>
+</div>
+
+
+</body>
+<script th:src="@{/js/all.js}"></script>
+</html>

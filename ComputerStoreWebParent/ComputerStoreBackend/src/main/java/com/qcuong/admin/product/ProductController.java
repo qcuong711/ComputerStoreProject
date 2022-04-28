@@ -81,19 +81,22 @@ public class ProductController {
 	
 	@PostMapping("/products/save")
 	public String saveproduct(Product product, RedirectAttributes redirectAttributes,
-			@RequestParam("fileImage") MultipartFile avatarImg,
-			@RequestParam("addImage1") MultipartFile addImg1,
-			@RequestParam("addImage2") MultipartFile addImg2,
-			@RequestParam("addImage3") MultipartFile addImg3) throws IOException {
+			@RequestParam("fileImage") MultipartFile avatarImg) throws IOException {
+		
+		//@RequestParam("addImage1") MultipartFile addImg1,
+		//@RequestParam("addImage2") MultipartFile addImg2,
+		//@RequestParam("addImage3") MultipartFile addImg3
+		
+		//setAddImg1Name(addImg1, product);
+		//setAddImg2Name(addImg2, product);
+		//setAddImg3Name(addImg3, product);
 		
 		setAvatarName(avatarImg, product);
-		setAddImg1Name(addImg1, product);
-		setAddImg2Name(addImg2, product);
-		setAddImg3Name(addImg3, product);
 		
 		Product savedProduct = service.save(product);
 		
-		saveUploadedImages(avatarImg, addImg1, addImg2, addImg3, savedProduct);
+		//saveUploadedImages(avatarImg, addImg1, addImg2, addImg3, savedProduct);
+		saveUploadedImages(avatarImg, savedProduct);
 		
 		redirectAttributes.addFlashAttribute("message", "The information has been saved!");
 		
@@ -129,8 +132,8 @@ public class ProductController {
 		}
 	}
 	
-	private void saveUploadedImages(MultipartFile avatarImg, MultipartFile addImg1, 
-			MultipartFile addImg2, MultipartFile addImg3, Product savedProduct) throws IOException {
+	private void saveUploadedImages(MultipartFile avatarImg, Product savedProduct) throws IOException {
+		//MultipartFile addImg1, MultipartFile addImg2, MultipartFile addImg3,
 		if(!avatarImg.isEmpty()) {
 			String fileName = StringUtils.cleanPath(avatarImg.getOriginalFilename());
 			String uploadDir = "../product-images/" + savedProduct.getId();
@@ -141,6 +144,7 @@ public class ProductController {
 		
 		String uploadDir = "../product-images/" + savedProduct.getId() + "/additional";
 		
+		/*
 		if(!addImg1.isEmpty()) {
 			String fileName = StringUtils.cleanPath(addImg1.getOriginalFilename());
 			FileUploadUtil.saveFile(uploadDir, fileName, addImg1);
@@ -153,6 +157,7 @@ public class ProductController {
 			String fileName = StringUtils.cleanPath(addImg3.getOriginalFilename());
 			FileUploadUtil.saveFile(uploadDir, fileName, addImg3);
 		}
+		*/
 		
 	}
 	

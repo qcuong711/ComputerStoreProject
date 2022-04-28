@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <body>
 <div th:fragment="navbar">
 	<div class="d-flex">
+		<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+			<input type="submit"/>
+		</form>
 		<nav class="navbar navbar-expand-lg bg-light navbar-light">
 			<a class="navbar-brand" th:href="@{/}"> 
 				<img th:src="@{/images/ComputerStoreLogo.png}" />
@@ -19,22 +23,60 @@
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link font-weight-bold" href="http://localhost:8000/chatroom.html">Chat with us</a>
+						<a class="nav-link font-weight-bold" href="http://localhost:8000/chatroom.html"
+						 target="_blank">Chat with us</a>
 					</li>
 				</ul>
 			</div>
 		</nav>
 		
+		<div class="d-flex">
+			<nav class="navbar navbar-expand-lg bg-light">
+				<div class="collapse navbar-collapse" id="searchNavbar">
+					<form class="form-inline" th:action="@{/search/page/1}" method="get">
+						<input type="search" name="keyword" class="form-control mr-sm-2" th:value="${searchKeyword}" 
+							style="width: 350px" placeholder="Search..." required/>
+						<input type="submit" class="btn btn-outline-success" value="Search" />
+					</form>
+				</div>
+			</nav>
+		</div>
+		
+		<!-- if not log in -->
+		<th:block sec:authorize="isAnonymous()">
 		<div class="mw-100 d-flex flex-fill bg-light">
 			<div class="my-auto ml-auto">
 				<div class="d-inline-block pr-2">
 					<a class="btn btn-outline-info text-info" id="loginLink" th:href="@{/login}">Log in</a>
 				</div>
 				<div class="d-inline-block pr-4">
-					<a class="btn btn-outline-info text-info" id="logoutlink" th:href="@{/signin}">Sign in</a>
+					<a class="btn btn-outline-info text-info" id="signUpLink" th:href="@{/register}">Sign up</a>
+				</div>
+				
+			</div>
+		</div>
+		</th:block>
+		
+		<!-- if log in -->
+		<th:block sec:authorize="isAuthenticated()">
+		<div class="mw-100 d-flex flex-fill bg-light pr-3 pt-1 pb-1">
+			<div class="my-auto ml-auto border rounded d-flex">
+				<div class="d-flex flex-column">
+					<span class="p-2 fas fa-user fa-2x text-center" style="color: black"></span>
+					<a class="p-2 nav-link" sec:authentication="principal.fullName"></a>
+				</div>
+				<div class="d-inline-block pr-2" style="margin:auto">
+					<a class="btn btn-outline-info" id="cart" th:href="@{/cart}"><i class="fas fa-shopping-cart"></i></a>
+				</div>
+				<div class="d-inline-block pr-2" style="margin:auto">
+					<a class="btn btn-outline-info" id="editlink" th:href="@{/update_account}"><i class="fas fa-address-card"></i></a>
+				</div>
+				<div class="d-inline-block pr-2" style="margin:auto">
+					<a class="btn btn-outline-danger" id="logoutlink" th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i></a>
 				</div>
 			</div>
 		</div>
+		</th:block>
 	</div>
 </div>
 </body>

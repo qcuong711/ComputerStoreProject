@@ -11,6 +11,7 @@
 	<form th:action="@{/products/save}" method="post" style="margin: 0 auto; max-width: 1150px" onsubmit="return checkUnique(this)" 
 		enctype="multipart/form-data" th:object="${product}">
 		<input type="hidden" th:field="*{id}" />
+		<input th:if="${product.category != null}" type="hidden" id="categoryId" th:value="${product.category.id}" />
 		<div class="border border-secondary rounded p-3">
 		
 			<div class="form-group row">
@@ -48,39 +49,41 @@
 			
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label text-right">Avatar</label>
-				<div class="col-sm-4" style="max-height:250px; max-width:250px; overflow: hidden">
+				<div class="col-sm-4" style="max-width:250px; overflow: hidden">
 					<img id="thumbnail" alt="Product Image Avatar" class="img-fluid" 
 					 th:src="@{${product.avatarPath}}"/>
 				</div>
 				<div>
-					<input type="file" id="fileImage" name="fileImage" accept="image/png, image/jpg" onchange="loadFile(event)" />
+					<input type="file" id="fileImage" name="fileImage" accept="image/png, image/jpg"/>
 				</div>
 			</div>
-			
+			<!-- 
 			<div class="form-group row">
-				<label class="col-sm-2 col-form-label text-right">Additional Image</label>
+				<label class="col-sm-2 col-form-label text-right">Additional Image 1</label>
 				<div class="col-sm-3" style="max-height:250px; max-width:250px; overflow: hidden">
-					<img id="addThumbnail1" alt="Product Image 1" class="img-fluid" 
+					<img id="thumbnail" alt="Product Image 1" class="img-fluid" 
 					 th:src="@{${additionalImage1.imagePath}}"/>
 					 
-					 <input class="pt-1" type="file" accept="image/png, image/jpg" onchange="loadFile1(event)" />
+					 <input class="pt-1" type="file" id="addImg1" accept="image/png, image/jpg" />
 				</div>
 				
 				<div class="col-sm-3" style="max-height:250px; max-width:250px; overflow: hidden">
-					<img id="addThumbnail2" alt="Product Image 2" class="img-fluid" 
+					<img id="thumbnail" alt="Product Image 2" class="img-fluid" 
 					 th:src="@{${additionalImage2.imagePath}}"/>
 					 
-					 <input class="pt-1" type="file" accept="image/png, image/jpg" onchange="loadFile2(event)" />
+					 <input class="pt-1" type="file" accept="image/png, image/jpg" />
 				</div>
 				
 				<div class="col-sm-3" style="max-height:250px; max-width:250px; overflow: hidden">
-					<img id="addThumbnail3" alt="Product Image 3" class="img-fluid" 
-					 th:src="@{${additionalImage3.imagePath}}"/>
+					<img id="thumbnail" alt="Product Image 3" class="img-fluid" 
+					 th:src="@{${additionalImage3.imagePath}}" />
 					 
-					 <input class="pt-1" type="file" accept="image/png, image/jpg" onchange="loadFile3(event)" />
+					 <input class="pt-1" type="file" accept="image/png, image/jpg" />
 				</div>
-				
+					
 			</div>
+			 -->
+			
 			
 			
 			<div class="form-group row">
@@ -173,13 +176,11 @@ $(document).ready(function() {
 		getCategories();
 	});
 	getCategories();
-});
-/*
-$(document).ready(function() {
+	
 	$("#fileImage").change(function(){
-		fileSize = this.file[0].size;
+		fileSize = this.files[0].size;
 		
-		if (fileSize > 1024*1024) {
+		if (fileSize > 1000000) {
 			this.setCustomValidity("Image must be < 1MB");
 			this.reportValidity();
 		} else {
@@ -198,43 +199,6 @@ function showImageThumbnail(fileInput) {
 	
 	reader.readAsDataURL(file);
 }
-*/
-var loadFile = function(event) {
-   var reader = new FileReader();
-   reader.onload = function() {
-	   var output = document.getElementById("thumbnail");
-	   output.src = reader.result;
-   };
-   reader.readAsDataURL(event.target.files[0]);
-};
-
-var loadFile1 = function(event) {
-	   var reader = new FileReader();
-	   reader.onload = function() {
-		   var output = document.getElementById("addThumbnail1");
-		   output.src = reader.result;
-	   };
-	   reader.readAsDataURL(event.target.files[0]);
-	};
-
-var loadFile2 = function(event) {
-	   var reader = new FileReader();
-	   reader.onload = function() {
-		   var output = document.getElementById("addThumbnail2");
-		   output.src = reader.result;
-	   };
-	   reader.readAsDataURL(event.target.files[0]);
-	};
-	
-var loadFile3 = function(event) {
-	   var reader = new FileReader();
-	   reader.onload = function() {
-		   var output = document.getElementById("addThumbnail3");
-		   output.src = reader.result;
-	   };
-	   reader.readAsDataURL(event.target.files[0]);
-	};
-
 
 function getCategories(){
 	brandId = dropdownBrands.val();
@@ -245,6 +209,18 @@ function getCategories(){
 			$("<option>").val(category.id).text(category.name).appendTo(dropdownCategories);
 		});	
 	});
+}
+
+function addAdditionalImage() {
+	html = `
+	<div class="col-sm-3" style="max-height:250px; max-width:250px; overflow: hidden">
+		<div><label>Product Image</label></div>
+		<img id="thumbnail" alt="Product Image 2" class="img-fluid" 
+		 th:src="@{/images/img-product-default.png}"/>
+		 
+		 <input class="pt-1" type="file" accept="image/png, image/jpg" onchange="loadFile1(event)" />
+	</div>
+	`;
 }
 
 </script>

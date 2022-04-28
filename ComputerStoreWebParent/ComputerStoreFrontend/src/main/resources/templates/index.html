@@ -6,13 +6,9 @@
 
 <div th:replace="navbar :: navbar"></div>
 
-<div>
-	<h1 class="font-weight-bold text-center pt-4">Welcome to Computer Store</h1>
-</div>
-
-<div class="row">
+<div class="row pt-3">
 	
-	<div class="col-md-3 pl-4">
+	<div class="col-md-3 ml-4">
 		<div class="border border-primary rounded ">
 			<ul class="nav flex-column" th:each="cat : ${listCategories}">
 				<li class="nav-item">
@@ -25,7 +21,7 @@
 		</div>
 	</div>
 	
-	<div class="col-md-7 pl-2">
+	<div class="col-md-8 ml-2">
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		  	<ol class="carousel-indicators">
 			    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -56,9 +52,160 @@
 			    <span class="sr-only">Next</span>
 		  	</a>
 		</div>
+		<hr>
+		<div class="mt-3">
+			<h4>Top sellers</h4>
+		</div>
+		<div class="row">
+			<div class="col-4">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/product/' + ${topSeller1.endURL}}">
+						<img th:src="@{${topSeller1.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">[[${topSeller1.name}]]</b>
+					</a>
+					<div th:if="${topSeller1.discount <= 0}">
+						<span style="color: blue; font-weight: bold">$[[${topSeller1.sellingPrice}]]</span>
+					</div>
+					<div th:if="${topSeller1.discount > 0}">
+						<del><span style="color: black; font-weight: bold">$[[${topSeller1.sellingPrice}]]</span></del>
+						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${topSeller1.discountSellingPrice}]]</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/product/' + ${topSeller2.endURL}}">
+						<img th:src="@{${topSeller2.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">[[${topSeller2.name}]]</b>
+					</a>
+					<div th:if="${topSeller2.discount <= 0}">
+						<span style="color: blue; font-weight: bold">$[[${topSeller2.sellingPrice}]]</span>
+					</div>
+					<div th:if="${topSeller2.discount > 0}">
+						<del><span style="color: black; font-weight: bold">$[[${topSeller2.sellingPrice}]]</span></del>
+						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${topSeller2.discountSellingPrice}]]</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/product/' + ${topSeller3.endURL}}">
+						<img th:src="@{${topSeller3.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">[[${topSeller3.name}]]</b>
+					</a>
+					<div th:if="${topSeller3.discount <= 0}">
+						<span style="color: blue; font-weight: bold">$[[${topSeller3.sellingPrice}]]</span>
+					</div>
+					<div th:if="${topSeller3.discount > 0}">
+						<del><span style="color: black; font-weight: bold">$[[${topSeller3.sellingPrice}]]</span></del>
+						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${topSeller3.discountSellingPrice}]]</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="mt-3">
+			<h4>Product you may like</h4>
+		</div>
+		<div class="row">
+			<div class="col-4">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/product/' + ${recProduct1.endURL}}">
+						<img th:src="@{${recProduct1.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">[[${recProduct1.name}]]</b>
+					</a>
+					<div th:if="${recProduct1.discount <= 0}">
+						<span style="color: blue; font-weight: bold">$[[${recProduct1.sellingPrice}]]</span>
+					</div>
+					<div th:if="${recProduct1.discount > 0}">
+						<del><span style="color: black; font-weight: bold">$[[${recProduct1.sellingPrice}]]</span></del>
+						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${recProduct1.discountSellingPrice}]]</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/product/' + ${recProduct2.endURL}}">
+						<img th:src="@{${recProduct2.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">[[${recProduct2.name}]]</b>
+					</a>
+					<div th:if="${recProduct2.discount <= 0}">
+						<span style="color: blue; font-weight: bold">$[[${recProduct2.sellingPrice}]]</span>
+					</div>
+					<div th:if="${recProduct2.discount > 0}">
+						<del><span style="color: black; font-weight: bold">$[[${recProduct2.sellingPrice}]]</span></del>
+						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${recProduct2.discountSellingPrice}]]</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/product/' + ${recProduct3.endURL}}">
+						<img th:src="@{${recProduct3.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">[[${recProduct3.name}]]</b>
+					</a>
+					<div th:if="${recProduct3.discount <= 0}">
+						<span style="color: blue; font-weight: bold">$[[${recProduct3.sellingPrice}]]</span>
+					</div>
+					<div th:if="${recProduct3.discount > 0}">
+						<del><span style="color: black; font-weight: bold">$[[${recProduct3.sellingPrice}]]</span></del>
+						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${recProduct3.discountSellingPrice}]]</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="mt-3">
+			<h4>Top Categories</h4>
+		</div>
+		<div class="row">
+			<div class="col-4">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:250px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/category/cpus'}">
+						<img th:src="@{/images/cpu.jpg}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">CPU</b>
+					</a>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:250px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/category/vga'}">
+						<img th:src="@{/images/vga.jpg}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">VGA</b>
+					</a>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:250px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/category/laptops'}">
+						<img th:src="@{/images/laptop.jpg}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">Laptops</b>
+					</a>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
+<div class="m-3"></div>
 
 <div th:replace="footer :: footer"></div>
 

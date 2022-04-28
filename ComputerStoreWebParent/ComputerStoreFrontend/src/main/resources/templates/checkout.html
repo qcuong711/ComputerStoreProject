@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="header :: page_head('Cart')"></head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="text-center pt-2"><h2><u>Checkout</u></h2></div>
+
+<div class="row mr-5 ml-5 mt-4">
+
+	<div class="col-5">
+		<div class="card">
+			<div class="card-header"><b>Billing Information</b></div>
+			<div class="card-body">
+				<p><span><b>Address:</b> [[${address}]], [[${country}]]</span></p>
+				<p><b>Phone:</b> [[${phone}]]</p>
+				<p><b>Postal Code:</b> [[${postalCode}]]</p>
+				<p><b>Deliver Days:</b> [[${deliverDays}]]</p>
+				<p><b>Shipping Cost: </b> <span style="color: blue">[[${shippingCost}]]$ </span></p>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="col-7">
+		<div class="card">
+			<div class="card-header"><b>Product List</b></div>
+			<div class="card-body">
+				<div>
+					<table>
+						<tr>
+							<th>Quantity</th>
+							<th class="text-center">Name</th>
+							<th>Price</th>
+						</tr>
+						<th:block th:each="item : ${items}">
+						<tr>
+							<td class="text-center">[[${item.quantity}]]</td>
+							<td class="pr-2 pl-2">[[${item.product.name}]]</td>
+							<td style="color: blue">[[${item.productTotal}]]$</td>
+						</tr>
+					</table>
+				</div>
+				
+				<div style="text-align: right">
+					<p class="mt-3"><b >Product Total: <span style="color: blue">[[${productTotal}]]$</span></b></p>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="row pt-3">
+	<div class="col-3"></div>
+	<div class="col-6 text-center">
+		<h3>Total:  <span style="color: blue">[[${total}]]$</span></h3>
+		<form th:action="@{/place_order}" method="post">
+		<button class="btn btn-primary"> Place Order (Cash on Delivery only)</button>
+		</form>
+	</div>
+	<div class="col-3"></div>
+</div>
+
+<div class="row mb-4">
+	<div class="col-1"></div>
+	<div class="col-10"><hr></div>
+	<div class="col-1"></div>
+</div>
+
+<div th:replace="footer :: footer"></div>
+
+</body>
+<script th:src="@{/js/all.js}"></script>
+<script th:src="@{/js/jquery.number.min.js}"></script>
+<script type="text/javascript"></script>
+</html>

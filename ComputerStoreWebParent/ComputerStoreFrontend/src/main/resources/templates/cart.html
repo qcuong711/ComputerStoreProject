@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="header :: page_head('Cart')"></head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="text-center pt-2"><h2><u>Shopping Cart</u></h2></div>
+
+<div class="row pt-4" th:unless="${#lists.isEmpty(items)}" id="titleCart">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<div class="row">
+			<div class="col-1"><p class="text-center"></p></div>
+			<div class="col-6"><p class="text-center"><b>Product</b></p></div>
+			<div class="col-2"><p class="text-center"><b>Quantity</b></p></div>
+			<div class="col-2"><p class="text-center"><b>Price ($)</b></p></div>
+			<div class="col-1"><p class="text-center"></p></div>
+		</div>
+	</div>
+	<div class="col-1"></div>
+</div>
+
+<div class="row">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<div class="col">
+			<th:block th:each="item, status : ${items}">
+			<div class="row border rounded mb-1" th:id="'row' + ${status.count}" >
+				<div class="col-1 text-center my-auto">
+					<div class="divCount">[[${status.count}]]</div>
+				</div>
+				<div class="col-2">
+					<img th:src="@{${item.product.avatarPath}}" class="img-fluid m-1" style="max-height: 150px" />
+				</div>
+				<div class="col-4 my-auto">[[${item.product.name}]]</div>
+				<div class="col-2 my-auto">
+					<div class="row ml-4">		
+						<a class="btn btn-primary btn-sm linkMinus" th:pid="${item.product.id}">
+							<i class="fas fa-minus" style="color: white"></i>
+						</a>
+						<input class="mr-1 ml-1" style="width: 40px; text-align: right" 
+							type="text" th:value="${item.quantity}"
+								 th:id="'quantity' + ${item.product.id}" onkeydown="return false;" />
+						<a class="btn btn-primary btn-sm linkPlus" th:pid="${item.product.id}">
+							<i class="fas fa-plus" style="color: white"></i>
+						</a>	
+					</div>
+				</div>
+				<div class="col-2 my-auto pl-4">
+					<p th:id="'productTotal' + ${item.product.id}" 
+						class="text-center mt-3 productTotal" style="color: blue">[[${item.productTotal}]]</p>
+				</div>
+				<div class="col-1 my-auto">
+					<a class="fas fa-trash linkRemove" style="color: red" th:rowNumber="${status.count}" 
+						th:href="@{'/cart/remove/' + ${item.product.id}}"></a>
+				</div>
+			</div>
+			</th:block>
+		</div>
+	</div>
+	<div class="col-1"></div>
+</div>
+
+<div class="row mt-3" th:unless="${#lists.isEmpty(items)}" id="countTotal">
+	<div class="col-7"><p></p></div>
+	<div class="col-5">
+		<div class="row ml-4">
+			<h3>Total price: &nbsp <span style="color: blue"> $ </span> </h3>
+			<h3 id="total" style="color: blue">[[${cartTotal}]]</h3>
+			<form th:action="@{/checkout}">
+				<button type="submit" class=" ml-3 btn btn-success">Check out</button>
+			</form>	
+		</div>
+	</div>
+</div>
+
+<div th:class="'text-center' + ${#lists.isEmpty(items) ? '' : ' d-none'}" th:id="isEmptyCart">
+	<div class="text-center mt-4" style="color: red"><h2>Your cart is empty!</h2></div>
+</div>
+
+<div class="row mb-4">
+	<div class="col-1"></div>
+	<div class="col-10"><hr></div>
+	<div class="col-1"></div>
+</div>
+
+<div th:replace="footer :: footer"></div>
+
+
+</body>
+<script th:src="@{/js/all.js}"></script>
+<script th:src="@{/js/jquery.number.min.js}"></script>
+<script type="text/javascript">
+contextPath = "[[@{/}]]"
+var csrfHeaderName = "[[${_csrf.headerName}]]";
+var csrfValue = "[[${_csrf.token}]]";
+
+$(document).ready(function(){
+	$(".linkMinus").on("click", function(evt){
+		evt.preventDefault();
+		decreaseQuantity($(this));
+	});
+	
+	$(".linkPlus").on("click", function(evt){
+		evt.preventDefault();
+		increaseQuantity($(this));	
+	});
+	
+	$(".linkRemove").on("click", function(evt){
+		evt.preventDefault();
+		removeProduct($(this));
+	});
+});
+
+function decreaseQuantity(link) {
+	productId = link.attr("pid");
+	quantityInput = $("#quantity" + productId);
+	newQuantity = parseInt(quantityInput.val()) - 1;
+	
+	if(newQuantity > 0){
+		quantityInput.val(newQuantity);
+		updateQuantity(productId, newQuantity);
+	} else {
+		alert('Min quantity is 1');
+	}
+}
+
+function increaseQuantity(link) {
+	productId = link.attr("pid");
+	quantityInput = $("#quantity" + productId);
+	newQuantity = parseInt(quantityInput.val()) + 1;
+	
+	quantityInput.val(newQuantity);
+	updateQuantity(productId, newQuantity);
+}
+
+function updateQuantity(productId, quantity) {
+	url = contextPath + "cart/update/" + productId + "/" + quantity;
+	
+	$.ajax({
+		type: "POST",
+		url: url,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfHeaderName, csrfValue);
+		}
+	}).done(function(updatedProductTotal){
+		
+		updateProductTotal(updatedProductTotal, productId);
+		updateCartTotal();
+	}).fail(function(){
+		alert("Some errors occur! Please try again later.");
+	});
+}
+
+function updateProductTotal(updatedProductTotal, productId) {
+	formattedProductTotal = $.number(updatedProductTotal, 2);
+	$("#productTotal" + productId).text(formattedProductTotal);
+}
+
+function updateCartTotal() {
+	total = 0.0;
+	productCount = 0;
+	
+	$(".productTotal").each(function(index, element) {
+		productCount++;
+		total += parseFloat(element.innerHTML.replaceAll(",", ""));
+	});
+	
+	if(productCount < 1) {
+		showEmptyCart();
+	} else {
+		formattedCartTotal = $.number(total, 2);
+		$("#total").text(formattedCartTotal);
+	}
+}
+
+function removeProduct(link) {
+	url = link.attr("href");
+	
+	$.ajax({
+		type: "DELETE",
+		url: url,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfHeaderName, csrfValue);
+		}
+	}).done(function(response){	
+		rowNumber = link.attr("rowNumber");
+		removeProductJS(rowNumber);
+		updateCartTotal();
+		updateCount();
+		
+		alert(response);
+	}).fail(function(){
+		alert("Some errors occur! Please try again later.");
+	});
+}
+
+function removeProductJS(rowNumber) {
+	$("#row" + rowNumber).remove();
+}
+
+function updateCount() {
+	$(".divCount").each(function(index, element) {
+		element.innerHTML = "" + (index + 1);
+	});
+}
+
+function showEmptyCart() {
+	$("#countTotal").hide();
+	$("#titleCart").hide();
+	$("#isEmptyCart").removeClass("d-none");
+}
+</script>
+</html>

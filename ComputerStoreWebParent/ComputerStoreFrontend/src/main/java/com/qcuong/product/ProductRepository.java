@@ -9,8 +9,12 @@ import com.qcuong.common.entity.Product;
 
 public interface ProductRepository extends PagingAndSortingRepository<Product, Integer>{
 	
-	@Query("select p from Product p where (p.category.id = ?1)")
-	public Page<Product> listByCategory(Integer categoryId, Pageable pageable);
+	@Query("select p from Product p where (p.category.id = ?1 or p.category.allParentIDs like %?2%)"
+			+ " order by p.name asc")
+	public Page<Product> listByCategory(Integer categoryId, String categoryIDMatch, Pageable pageable);
 	
 	public Product findByEndURL(String endURL);
+	
+	@Query(value = "select * from products where match(name) against (?1)", nativeQuery = true)
+	public Page<Product> search(String keyword, Pageable pageable);
 }

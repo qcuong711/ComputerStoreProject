@@ -2,7 +2,6 @@ package com.qcuong.common.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,7 +21,7 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Column(unique = true, length = 256, nullable = false)
 	private String name;
@@ -57,12 +56,19 @@ public class Product {
 	private List<ProductImage> images = new ArrayList<>();
 	
 	private String avatar; 
+	
+	public Product(Integer id) {
+		this.id = id;
+	}
 
-	public int getId() {
+	public Product() {
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -177,10 +183,18 @@ public class Product {
 	
 	@Transient
 	public float getDiscountSellingPrice() {
+		float discountSellingPricef = 0;
+		
 		if(discount > 0) {
-			return sellingPrice * ((100 - discount) / 100);
+			discountSellingPricef = sellingPrice * ((100 - discount) / 100);
+		} else {
+			discountSellingPricef = this.sellingPrice;
 		}
-		return this.sellingPrice;	
+		
+		String discountPriceString = String.format("%.02f", discountSellingPricef);
+		float discountSellingPrice = Float.parseFloat(discountPriceString);
+		
+		return discountSellingPrice;
 	}
 	
 }

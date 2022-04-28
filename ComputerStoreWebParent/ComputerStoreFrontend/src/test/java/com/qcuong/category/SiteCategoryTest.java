@@ -17,12 +17,18 @@ public class SiteCategoryTest {
 	@Autowired
 	private CategoryRepository repo;
 	
-	@Test
+	
 	public void testListEnabled() {
 		List<Category> cat = repo.findAllEnabled();
 		for (Category cate : cat) {
 			System.out.println(cate.getName() + "," + cate.isEnabled());
 		}
+	}
+	
+	@Test
+	public void testFindCat() {
+		String endURL = "laptops";
+		Category category = repo.findByEndURL(endURL);
 	}
 	
 }

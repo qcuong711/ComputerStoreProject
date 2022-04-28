@@ -56,16 +56,16 @@
 		</nav>
 		
 		<div class="mw-100 d-flex flex-fill bg-light pr-3 pt-1 pb-1">
-			<div class="my-auto ml-auto border d-flex border-secondary rounded">
+			<div class="my-auto ml-auto border d-flex rounded">
 				<div class="d-flex flex-column">
 					<span class="p-2 fas fa-user fa-2x text-center" style="color: black"></span>
 					<a class="p-2 nav-link" sec:authentication="principal.name"></a>
 				</div>
 				<div class="d-inline-block pr-2" style="margin:auto">
-					<a class="btn btn-outline-info text-info" id="editlink" th:href="@{/account}">Edit Profile</a>
+					<a class="btn btn-outline-info" id="editlink" th:href="@{/account}"><i class="fas fa-address-card"></i></a>
 				</div>
 				<div class="d-inline-block pr-2" style="margin:auto">
-					<a class="btn btn-outline-danger text-danger" id="logoutlink" th:href="@{/logout}">Logout</a>
+					<a class="btn btn-outline-danger" id="logoutlink" th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i></a>
 				</div>
 			</div>
 		</div>

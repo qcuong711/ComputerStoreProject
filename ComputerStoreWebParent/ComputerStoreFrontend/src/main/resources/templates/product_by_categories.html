@@ -6,7 +6,31 @@
 
 <div th:replace="navbar :: navbar"></div>
 
-<div class="row pt-3">
+<div class="row ml-2 mr-2">
+	<div class="col pl-2 ml-2 mt-2">
+		<div th:if="${categoryParents != null && !categoryParents.empty}">
+			<div class="row">
+				<div class="col">
+					<nav>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a th:href="@{/}">Home</a>
+							</li>
+							
+							<th:block th:each="parent : ${categoryParents}">
+							<li class="breadcrumb-item">
+								<a th:href="@{'/category/' + ${parent.endURL}}">[[${parent.name}]]</a>
+							</li>
+							</th:block>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
 
 	<div class="col-md-3 pl-4">
 		<div class="border border-primary rounded ">
@@ -23,16 +47,19 @@
 	
 	<div class="row col-md-9">
 		<th:block th:each="product : ${listProducts}">
-		<div class="col-md-3">
-			<div class="d-flex flex-column align-items-center justify-content-center border rounded">
-				<img th:src="@{${product.avatarPath}}" class="pt-2" style="width: 150px">
-				<br/>
-				<b>[[${product.name}]]</b>
+		<div class="col-md-4 pb-2" >
+			<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+				<a class="d-flex flex-column align-items-center justify-content-center" 
+					th:href="@{'/product/' + ${product.endURL}}">
+					<img th:src="@{${product.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+					<br/>
+					<b class="pl-1">[[${product.name}]]</b>
+				</a>
 				<div th:if="${product.discount <= 0}">
 					<span style="color: blue; font-weight: bold">$[[${product.sellingPrice}]]</span>
 				</div>
 				<div th:if="${product.discount > 0}">
-					<del><span style="color: black; font-weight: bold">$ [[${product.sellingPrice}]]</span></del>
+					<del><span style="color: black; font-weight: bold">$[[${product.sellingPrice}]]</span></del>
 					<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${product.discountSellingPrice}]]</span>
 				</div>
 			</div>

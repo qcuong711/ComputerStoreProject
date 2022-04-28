@@ -38,17 +38,17 @@
 					
 					<th scope="col">In stock</th>
 					
-					<th scope="col"></th>
+					<th scope="col" style="width: 75px"></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="product : ${listproducts}">
 					<td style="vertical-align: middle">[[${product.id}]]</td>
-					<td style="vertical-align: middle">[[${product.name}]]</td>
+					<td style="vertical-align: middle; width: 350px">[[${product.name}]]</td>
 					<td style="vertical-align: middle">
-						<img th:src="@{${product.avatarPath}}" style="width: 120px" class="img-fluid"/>
+						<img th:src="@{${product.avatarPath}}" style="max-width: 120px; max-height: 120px" class="img-fluid"/>
 					</td>
-					<td style="vertical-align: middle">[[${product.category.name}]]</td>
+					<td style="vertical-align: middle; width: 100px">[[${product.category.name}]]</td>
 					<td style="vertical-align: middle">[[${product.brand.name}]]</td>
 					<td style="vertical-align: middle">[[${product.endURL}]]</td>
 					<td style="vertical-align: middle">[[${product.purchasePrice}]]</td>

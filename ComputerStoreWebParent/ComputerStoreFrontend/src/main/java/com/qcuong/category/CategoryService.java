@@ -32,4 +32,19 @@ public class CategoryService {
 	public Category getCategory(String endURL) {
 		return repo.findByEndURL(endURL);
 	}
+	
+	public List<Category> getCatParent(Category child) {
+		List<Category> listParents = new ArrayList<>();
+		
+		Category parent = child.getParent();
+		
+		while(parent != null) {
+			listParents.add(0, parent);
+			parent = parent.getParent();
+		}
+		
+		listParents.add(child);
+		
+		return listParents;
+	}
 }
