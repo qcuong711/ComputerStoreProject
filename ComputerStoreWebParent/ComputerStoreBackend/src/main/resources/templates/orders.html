@@ -33,13 +33,13 @@
 					
 					<th scope="col">Status</th>
 					
-					<th scope="col"></th>
+					<th scope="col" style="width: 75px"></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="order : ${listOrders}">
 					<td style="vertical-align: middle">[[${order.id}]]</td>
-					<td style="vertical-align: middle; max-width: 350px">[[${order.customerName}]]</td>
+					<td style="vertical-align: middle; max-width: 350px">[[${order.firstName}]] [[${order.lastName}]]</td>
 					<td style="vertical-align: middle">[[${order.phoneNumber}]]</td>
 					<td style="vertical-align: middle">[[${order.address}]]</td>
 					<td style="vertical-align: middle">[[${order.postalCode}]]</td>
@@ -51,6 +51,7 @@
 					<td style="vertical-align: middle">
 						<a class="fas fa-info-circle fa-1x" th:href="@{'/orders/info/' + ${order.id}}" title="Product Info"></a>
 						&nbsp;
+						<a class="fas fa-truck fa-1x" th:href="@{'/orders/track/' + ${order.id}}" title="Product Tracking"></a>
 					</td>
 				</tr>
 			</tbody>

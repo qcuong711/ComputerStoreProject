@@ -7,8 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +30,7 @@ public class Order {
 	@Column(name = "last_name", nullable = false, length = 45)
 	private String lastName;
 	
-	@Column(unique = true, length = 45)
+	@Column(length = 45)
 	private String email;
 	
 	@Column(length = 18)
@@ -56,8 +54,7 @@ public class Order {
 	
 	private String deliverDays;
 	
-	@Enumerated(EnumType.STRING)
-	private OrderStatus status;
+	private String status;
 	
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
@@ -173,11 +170,11 @@ public class Order {
 		this.deliverDays = deliverDays;
 	}
 
-	public OrderStatus getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(OrderStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -214,5 +211,17 @@ public class Order {
 	public String toString() {
 		return "Order [id=" + id + ", cartTotal=" + cartTotal + ", customer=" + customer.getEmail();
 	}
+	
+	@Transient
+	public List<String> getProductList() {
+		List<String> lists = new ArrayList<>();
 		
+		for (OrderDetail detail : orderDetails) {
+			String productName = "- " + detail.getProduct().getName() 
+					+ " X " + detail.getQuantity() + " = " + detail.getUnitPrice() + "$";
+			lists.add(productName);
+		}
+		
+		return lists;
+	}
 }

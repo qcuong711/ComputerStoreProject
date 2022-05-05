@@ -1,6 +1,5 @@
 package com.qcuong.admin.order;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import org.springframework.test.annotation.Rollback;
 import com.qcuong.common.entity.Customer;
 import com.qcuong.common.entity.Order;
 import com.qcuong.common.entity.OrderDetail;
-import com.qcuong.common.entity.OrderStatus;
 import com.qcuong.common.entity.OrderTrack;
 import com.qcuong.common.entity.Product;
 
@@ -48,7 +46,7 @@ public class OrderRepoTest {
 		order.setDeliverDays("3 to 6");
 		order.setCartTotal(300);
 		order.setTotal(order.getShippingCost() + order.getCartTotal());
-		order.setStatus(OrderStatus.NEW);
+		order.setStatus("New");
 		order.setOrderTime(new Date());
 		
 		OrderDetail details = new OrderDetail();
@@ -90,7 +88,7 @@ public class OrderRepoTest {
 		order.setDeliverDays("3 to 6");
 		order.setCartTotal(400);
 		order.setTotal(order.getShippingCost() + order.getCartTotal());
-		order.setStatus(OrderStatus.NEW);
+		order.setStatus("New");
 		order.setOrderTime(new Date());
 		
 		OrderDetail details = new OrderDetail();
@@ -116,8 +114,8 @@ public class OrderRepoTest {
 		
 		newTrack.setOrder(order);
 		newTrack.setUpdateTime(new Date());
-		newTrack.setStatus(OrderStatus.DELIVERED);
-		newTrack.setNotes(OrderStatus.DELIVERED.defaultDescription());
+		newTrack.setStatus("Delivered");
+		newTrack.setNotes("delivered des");
 		
 		List<OrderTrack> tracks = order.getOrderTracks();
 		

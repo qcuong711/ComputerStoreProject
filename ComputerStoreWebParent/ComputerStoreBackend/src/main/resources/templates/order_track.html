@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: page_head('Order Information')"></head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="d-flex align-items-center justify-content-center mt-2">
+	<h2>[[${pageTitle}]]</h2>
+</div>
+
+<div id="trackList" class="row">
+	<div class="col-2"></div>
+	<div class="col-8">
+		<table class="table table-bordered">
+			<thead>
+				<tr class="text-center">
+					<th>Time</th>
+					<th>Status</th>
+					<th>Detail</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="text-center">
+					<td>[[${order.orderTime}]]</td>
+					<td>NEW</td>
+					<td>Order has been created by customer</td>
+				</tr>
+				<tr class="text-center" th:each = "track : ${order.orderTracks}">
+					<td>[[${track.updateTime}]]</td>
+					<td>[[${track.status}]]</td>
+					<td>[[${track.notes}]]</td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<form th:action="@{/ordersTrack/save}" method="post" style="margin: 0 auto; width: 550px" th:object="${order}">
+				
+				<input type="hidden" th:field="*{id}" />
+				
+				
+				<div class="border border-secondary rounded p-3">
+					
+					<div class="text-center pb-3"><b>Add Tracking Infomation</b></div>
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label text-right">Order Status</label>
+						<div class="col-sm-9 pt-2">
+							<select id="selectStatus" name="selectStatus">
+								<option value="NEW">NEW</option>
+								<option value="PROCESSING">PROCESSING</option>
+								<option value="SHIPPING">SHIPPING</option>
+								<option value="DELIVERED">DELIVERED</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label text-right">Description</label>
+						<div class="col-sm-9">
+							<input id="selectNotes" name="selectNotes"
+							 type="text" class="form-control" required minlength="2" maxlength="300" />
+						</div>
+					</div>
+								
+					<div class="text-center">
+						<input type="submit" value="Add" class="btn btn-primary mt-3 mr-3" />
+					</div>
+				</div>
+			</form>
+		</div>
+		
+	</div>
+</div>
+</body>
+<script th:src="@{/js/all.js}"></script>
+</html>

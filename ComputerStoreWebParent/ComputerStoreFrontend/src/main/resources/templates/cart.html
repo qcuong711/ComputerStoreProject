@@ -27,10 +27,12 @@
 	<div class="col-10">
 		<div class="col">
 			<th:block th:each="item, status : ${items}">
+			<input type="hidden" th:id="'maxQty' + ${item.product.id}" th:value="${item.product.quantity}" />
 			<div class="row border rounded mb-1" th:id="'row' + ${status.count}" >
 				<div class="col-1 text-center my-auto">
 					<div class="divCount">[[${status.count}]]</div>
 				</div>
+				
 				<div class="col-2">
 					<img th:src="@{${item.product.avatarPath}}" class="img-fluid m-1" style="max-height: 150px" />
 				</div>
@@ -47,6 +49,7 @@
 							<i class="fas fa-plus" style="color: white"></i>
 						</a>	
 					</div>
+					<div class="mt-1"><p>([[${item.product.quantity}]] products remains)</p></div>
 				</div>
 				<div class="col-2 my-auto pl-4">
 					<p th:id="'productTotal' + ${item.product.id}" 
@@ -87,7 +90,6 @@
 </div>
 
 <div th:replace="footer :: footer"></div>
-
 
 </body>
 <script th:src="@{/js/all.js}"></script>
@@ -131,9 +133,14 @@ function increaseQuantity(link) {
 	productId = link.attr("pid");
 	quantityInput = $("#quantity" + productId);
 	newQuantity = parseInt(quantityInput.val()) + 1;
+	max = $("#maxQty" + productId).val();
 	
-	quantityInput.val(newQuantity);
-	updateQuantity(productId, newQuantity);
+	if(newQuantity <= max){
+		quantityInput.val(newQuantity);
+		updateQuantity(productId, newQuantity);
+	} else {
+		alert('You cannot add more!');
+	}
 }
 
 function updateQuantity(productId, quantity) {

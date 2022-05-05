@@ -35,6 +35,7 @@ public class Product {
 	@Column(name = "inStock")
 	private boolean instock;
 	
+	private int quantity;
 	
 	private float purchasePrice;
 	private float sellingPrice; 
@@ -56,6 +57,10 @@ public class Product {
 	private List<ProductImage> images = new ArrayList<>();
 	
 	private String avatar; 
+	
+	private int reviewCount;
+	
+	private float averageRating;
 	
 	public Product(Integer id) {
 		this.id = id;
@@ -120,6 +125,14 @@ public class Product {
 		this.sellingPrice = sellingPrice;
 	}
 
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	public float getDiscount() {
 		return discount;
 	}
@@ -172,6 +185,22 @@ public class Product {
 		this.avatar = avatar;
 	}
 	
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
+	public float getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(float averageRating) {
+		this.averageRating = averageRating;
+	}
+
 	@Transient
 	public String getAvatarPath() {
 		if (avatar == null) {

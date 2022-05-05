@@ -74,6 +74,7 @@ public class CheckoutController {
 	public String placeOrder(HttpServletRequest request) {
 		Customer customer = getCurrentCustomer(request);
 		List<CartItem> items = cartService.listCartItems(customer);
+		
 		CheckoutInfo info = checkoutService.prepareCheckout(items, request);
 		
 		orderService.createOrder(customer, items, info);

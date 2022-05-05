@@ -4,8 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,9 +22,8 @@ public class OrderTrack {
 	@Column(length = 256)
 	private String notes;
 	
-	@Enumerated(EnumType.STRING)
 	@Column(length = 45)
-	private OrderStatus status;
+	private String status;
 	
 	private Date updateTime;
 	
@@ -50,11 +47,11 @@ public class OrderTrack {
 		this.notes = notes;
 	}
 
-	public OrderStatus getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(OrderStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

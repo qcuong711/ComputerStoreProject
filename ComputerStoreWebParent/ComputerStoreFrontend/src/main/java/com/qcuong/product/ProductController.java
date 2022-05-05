@@ -66,6 +66,27 @@ public class ProductController {
 		model.addAttribute("product", product);
 		model.addAttribute("PageTitle", product.getName());
 		
+		//recommend product
+		int rd1 = (int)(Math.random()*5) + 7;
+		Product rec1 = productService.get(rd1);
+		
+		//recommend product
+		int rd2 = (int)(Math.random()*5) + 12;
+		Product rec2 = productService.get(rd2);
+		
+		//recommend product
+		int rd3 = (int)(Math.random()*4) + 17;
+		Product rec3 = productService.get(rd3);
+		
+		//recommend product
+		int rd4 = (int)(Math.random()*3) + 25;
+		Product rec4 = productService.get(rd4);
+		
+		model.addAttribute("rec1", rec1);
+		model.addAttribute("rec2", rec2);
+		model.addAttribute("rec3", rec3);
+		model.addAttribute("rec4", rec4);
+		
 		return "product_detail";
 	}
 	

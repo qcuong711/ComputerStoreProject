@@ -42,7 +42,7 @@ public class ProductRepoTest {
 		assertThat(pr.getId()).isGreaterThan(0);
 	}
 	
-	@Test
+	
 	public void testSaveProductWithImages() {
 		int pId = 2;
 		Product product = repo.findById(pId).get();
@@ -51,5 +51,11 @@ public class ProductRepoTest {
 		product.addAdditionalImage("e_img_2");
 		
 		repo.save(product);
+	}
+	
+	@Test
+	public void testUpdateCountAndAverage() {
+		Integer pid = 8;
+		repo.updateCountAndAverageRating(pid);
 	}
 }

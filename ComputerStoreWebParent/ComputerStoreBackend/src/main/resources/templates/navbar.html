@@ -20,10 +20,10 @@
 					<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
 						<a class="nav-link font-weight-bold" th:href="@{/users}">Users</a>
 					</li>
-					<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
+					<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
 						<a class="nav-link font-weight-bold" th:href="@{/categories}">Categories</a>
 					</li>
-					<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
+					<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
 						<a class="nav-link font-weight-bold" th:href="@{/brands}">Brands</a>
 					</li>
 					<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
@@ -32,23 +32,11 @@
 					<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
 						<a class="nav-link font-weight-bold" th:href="@{/customers}">Customers</a>
 					</li>
-					<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
+					<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee', 'Shipper')">
 						<a class="nav-link font-weight-bold" th:href="@{/orders}">Orders</a>
 					</li>
-					<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Shipper')">
-						<a class="nav-link font-weight-bold" th:href="@{/shipping}">Shipping</a>
-					</li>
-					<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
-						<a class="nav-link font-weight-bold" th:href="@{/reports}">Reports</a>
-					</li>
-					<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
-						<a class="nav-link font-weight-bold" th:href="@{/newspapers}">Newspapers</a>
-					</li>
-					<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
-						<a class="nav-link font-weight-bold" th:href="@{/menu}">Menu</a>
-					</li>
-					<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
-						<a class="nav-link font-weight-bold" th:href="@{/settings}">Settings</a>
+					<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
+						<a class="nav-link font-weight-bold" th:href="@{/reviews}">Reviews</a>
 					</li>
 					
 				</ul>
@@ -69,25 +57,6 @@
 				</div>
 			</div>
 		</div>
-		
-		
-		<!-- 
-		<div class="border border-secondary d-flex rounded">
-			<div class="d-flex flex-column">
-				<span class="p-2 fas fa-user fa-2x text-center" style="color: black"></span>
-				<a class="p-2 nav-link" sec:authentication="principal.name"></a>
-			</div>
-			<div class="d-inline-block pr-2" style="margin:auto">
-				<a class="btn btn-outline-info text-info" id="editlink" th:href="@{/account}">Edit Profile</a>
-			</div>
-			<div class="d-inline-block pr-2" style="margin:auto">
-				<a class="btn btn-outline-danger text-danger" id="logoutlink" th:href="@{/logout}">Logout</a>
-			</div>
-		</div>
-		-->
-		
-		
-		
 	</div>
 	
 </div>

@@ -7,7 +7,7 @@
 <div th:replace="navbar :: navbar"></div>
 
 <div class="row pt-3 pl-3 pb-5 pr-3">
-
+	<input type="hidden" th:id="'maxQty' + ${product.id}" th:value="${product.quantity}" />
 	<div class="col-sm-4 text-center">
 		<img style="max-height: 400px" th:src="@{${product.avatarPath}}" class="img-fluid" />
 	</div>
@@ -49,14 +49,12 @@
 					<input type="button" value="Add to cart" id="buttonAddToCart" 
 						class="btn btn-primary btn-sm mt-1 mr-1 ml-1" />	
 				</div>
+				<div class="row ml-1">([[${product.quantity}]] products remain)</div>
 				</th:block>
 				
 				
 			</div>
-			<div class="col-sm-4 border rounded">
-				<h3 class="text-center" style="color: blue"><u>Item Specifics</u></h3>
-				<div th:utext="${product.itemSpecifics}"></div>
-			</div>
+			
 		</div>
 	</div>
 <div th:with="productId=${product.id}"></div>
@@ -66,11 +64,94 @@
 	<div class="col-sm-10"><hr></div>
 	<div class="col-sm-1"></div>
 </div>
-<div class="row pt-3 pl-3 pb-5 pr-5">
-	<div class="col-sm-1"></div>
-	<div class="col-sm-10 justify-content-center border rounded">
+<div class="row mt-3 ml-5 mb-5 mr-5">
+	<div class="col-sm-9 justify-content-center border rounded">
 		<h2 class="text-center" style="color: blue"><u>Description</u></h2>
 		<div th:utext="${product.description}"></div>
+	</div>
+	<div class="col-sm-3">
+		<div class="border rounded p-2">
+			<h3 class="text-center" style="color: blue"><u>Item Specifics</u></h3>
+			<div th:utext="${product.itemSpecifics}"></div>
+		</div>	
+	</div>
+</div>
+
+<div class="row mb-3">
+	<div class="col-sm-1"></div>
+	<div class="col-sm-10">
+		<hr>
+		<h4>Product you may like</h4>
+		<div class="row">
+			<div class="col-3">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:380px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/product/' + ${rec1.endURL}}">
+						<img th:src="@{${rec1.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">[[${rec1.name}]]</b>
+					</a>
+					<div th:if="${rec1.discount <= 0}">
+						<span style="color: blue; font-weight: bold">$[[${rec1.sellingPrice}]]</span>
+					</div>
+					<div th:if="${rec1.discount > 0}">
+						<del><span style="color: black; font-weight: bold">$[[${rec1.sellingPrice}]]</span></del>
+						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${rec1.discountSellingPrice}]]</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-3">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:380px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/product/' + ${rec2.endURL}}">
+						<img th:src="@{${rec2.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">[[${rec2.name}]]</b>
+					</a>
+					<div th:if="${rec2.discount <= 0}">
+						<span style="color: blue; font-weight: bold">$[[${rec2.sellingPrice}]]</span>
+					</div>
+					<div th:if="${rec2.discount > 0}">
+						<del><span style="color: black; font-weight: bold">$[[${rec2.sellingPrice}]]</span></del>
+						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${rec2.discountSellingPrice}]]</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-3">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:380px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/product/' + ${rec3.endURL}}">
+						<img th:src="@{${rec3.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">[[${rec3.name}]]</b>
+					</a>
+					<div th:if="${rec3.discount <= 0}">
+						<span style="color: blue; font-weight: bold">$[[${rec3.sellingPrice}]]</span>
+					</div>
+					<div th:if="${rec3.discount > 0}">
+						<del><span style="color: black; font-weight: bold">$[[${rec3.sellingPrice}]]</span></del>
+						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${rec3.discountSellingPrice}]]</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-3">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:380px">
+					<a class="d-flex flex-column align-items-center justify-content-center" 
+						th:href="@{'/product/' + ${rec4.endURL}}">
+						<img th:src="@{${rec4.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
+						<br/>
+						<b class="pl-1">[[${rec4.name}]]</b>
+					</a>
+					<div th:if="${rec4.discount <= 0}">
+						<span style="color: blue; font-weight: bold">$[[${rec4.sellingPrice}]]</span>
+					</div>
+					<div th:if="${rec4.discount > 0}">
+						<del><span style="color: black; font-weight: bold">$[[${rec4.sellingPrice}]]</span></del>
+						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${rec4.discountSellingPrice}]]</span>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="col-sm-1"></div>
 </div>
@@ -103,9 +184,14 @@ $(document).ready(function(){
 		productId = $(this).attr("pid");
 		quantityInput = $("#quantity" + productId);
 		newQuantity = parseInt(quantityInput.val()) + 1;
+		max = $("#maxQty" + productId).val();
 		
-		quantityInput.val(newQuantity);
-	})
+		if(newQuantity <= max){
+			quantityInput.val(newQuantity);
+		} else {
+			alert('You cannot add more!');
+		}
+	});
 	
 	$("#buttonAddToCart").on("click", function(evt){
 		addToCart();
