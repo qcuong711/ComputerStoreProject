@@ -17,7 +17,7 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 	@Query("select o from Product o order by o.id desc")
 	public Page<Product> findAll(Pageable pageable);
 	
-	@Query("update Product p set p.averageRating = (select avg(r.rating) from Review r where r.product.id = ?1), "
+	@Query("update Product p set p.averageRating = coalesce((select avg(r.rating) from Review r where r.product.id = ?1), 0), "
 			+ " p.reviewCount = (select count(r.id) from Review r where r.product.id = ?1)"
 			+ " where p.id = ?1")
 	@Modifying

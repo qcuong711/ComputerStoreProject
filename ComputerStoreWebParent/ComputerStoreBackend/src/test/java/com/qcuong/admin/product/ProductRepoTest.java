@@ -55,7 +55,7 @@ public class ProductRepoTest {
 	
 	@Test
 	public void testUpdateCountAndAverage() {
-		Integer pid = 8;
-		repo.updateCountAndAverageRating(pid);
+		repo.updateCountAndAverageRating(7);
+		
 	}
 }

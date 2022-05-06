@@ -20,10 +20,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
-
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/images/**", "/webjars/**", "/fontawesome/**", "/style.css", "/js/**");
+		web.ignoring().antMatchers("/images/**", "/webjars/**", "/fontawesome/**", "/style.css", "/js/**", 
+				"/richtext/**", "/star-rising/**");
 	}
 	
 	@Bean

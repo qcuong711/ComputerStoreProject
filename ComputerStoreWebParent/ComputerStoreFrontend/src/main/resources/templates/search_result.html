@@ -2,6 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="header :: page_head(${PageTitle})"></head>
+<head>
+	<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/js/star-rating.js}"></script>
+	<link th:href="@{/star-rating/themes/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css"></link>
+	<script th:src="@{/star-rating/themes/krajee-svg/theme.js}"></script>
+</head>
 <body>
 
 <div th:replace="navbar :: navbar"></div>
@@ -29,7 +35,7 @@
 	<div class="row col-md-9">
 		<th:block th:each="product : ${listResults}">
 		<div class="col-md-4 pb-2" >
-			<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+			<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:420px">
 				<a class="d-flex flex-column align-items-center justify-content-center" 
 					th:href="@{'/product/' + ${product.endURL}}">
 					<img th:src="@{${product.avatarPath}}" class="pt-3" style="width: 150px">
@@ -42,6 +48,10 @@
 				<div th:if="${product.discount > 0}">
 					<del><span style="color: black; font-weight: bold">$[[${product.sellingPrice}]]</span></del>
 					<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${product.discountSellingPrice}]]</span>
+				</div>
+				<div class="col text-center">
+					<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+						th:value="${product.averageRating}" />
 				</div>
 			</div>
 		</div>
@@ -107,4 +117,12 @@
 
 </body>
 <script th:src="@{/js/all.js}"></script>
+<script type="text/javascript">
+$(".product-detail-rating-star").rating({
+	displayOnly: true,
+	hoverOnClear: false,
+	showCaption: false,
+	theme: "krajee-svg"
+})
+</script>
 </html>

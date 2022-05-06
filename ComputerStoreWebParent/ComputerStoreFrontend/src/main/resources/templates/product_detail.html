@@ -2,6 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="header :: page_head(${PageTitle})"></head>
+<head>
+	<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/js/star-rating.js}"></script>
+	<link th:href="@{/star-rating/themes/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css"></link>
+	<script th:src="@{/star-rating/themes/krajee-svg/theme.js}"></script>
+</head>
 <body>
 
 <div th:replace="navbar :: navbar"></div>
@@ -37,21 +43,32 @@
 				</div>
 				
 				<th:block th:if="${product.instock}">
-				<div class="row ml-1">		
-					<a class="mt-1 btn btn-primary btn-sm linkMinus" th:pid="${product.id}">
-						<i class="fas fa-minus" style="color: white"></i>
-					</a>
-					<input class="mt-1 mr-1 ml-1" style="width: 40px; text-align: right" 
-						type="text" value="1" th:id="'quantity' + ${product.id}" onkeydown="return false;" />
-					<a class=" mt-1 btn btn-primary btn-sm linkPlus" th:pid="${product.id}">
-						<i class="fas fa-plus" style="color: white"></i>
-					</a>
-					<input type="button" value="Add to cart" id="buttonAddToCart" 
-						class="btn btn-primary btn-sm mt-1 mr-1 ml-1" />	
+				<div class="row">
+					<div class="row ml-1">		
+						<a class="mt-1 btn btn-primary btn-sm linkMinus" th:pid="${product.id}">
+							<i class="fas fa-minus" style="color: white"></i>
+						</a>
+						<input class="mt-1 mr-1 ml-1" style="width: 40px; text-align: right" 
+							type="text" value="1" th:id="'quantity' + ${product.id}" onkeydown="return false;" />
+						<a class=" mt-1 btn btn-primary btn-sm linkPlus" th:pid="${product.id}">
+							<i class="fas fa-plus" style="color: white"></i>
+						</a>
+						<input type="button" value="Add to cart" id="buttonAddToCart" 
+							class="btn btn-primary btn-sm mt-1 mr-1 ml-1" />	
+					</div>
+					<div class="row ml-4 pt-2 ">([[${product.quantity}]] products remain)</div>
 				</div>
-				<div class="row ml-1">([[${product.quantity}]] products remain)</div>
 				</th:block>
 				
+				<div class="col pt-1">
+					<div class="col">
+						<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+							th:value="${product.averageRating}" />
+					</div>
+					<div class="pl-5">
+						<p>([[${product.reviewCount}]] reviews)</p>
+					</div>
+				</div>
 				
 			</div>
 			
@@ -84,7 +101,7 @@
 		<h4>Product you may like</h4>
 		<div class="row">
 			<div class="col-3">
-				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:380px">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:420px">
 					<a class="d-flex flex-column align-items-center justify-content-center" 
 						th:href="@{'/product/' + ${rec1.endURL}}">
 						<img th:src="@{${rec1.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
@@ -98,10 +115,14 @@
 						<del><span style="color: black; font-weight: bold">$[[${rec1.sellingPrice}]]</span></del>
 						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${rec1.discountSellingPrice}]]</span>
 					</div>
+					<div class="col text-center">
+						<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+							th:value="${rec1.averageRating}" />
+					</div>
 				</div>
 			</div>
 			<div class="col-3">
-				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:380px">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:420px">
 					<a class="d-flex flex-column align-items-center justify-content-center" 
 						th:href="@{'/product/' + ${rec2.endURL}}">
 						<img th:src="@{${rec2.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
@@ -115,10 +136,14 @@
 						<del><span style="color: black; font-weight: bold">$[[${rec2.sellingPrice}]]</span></del>
 						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${rec2.discountSellingPrice}]]</span>
 					</div>
+					<div class="col text-center">
+						<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+							th:value="${rec2.averageRating}" />
+					</div>
 				</div>
 			</div>
 			<div class="col-3">
-				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:380px">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:420px">
 					<a class="d-flex flex-column align-items-center justify-content-center" 
 						th:href="@{'/product/' + ${rec3.endURL}}">
 						<img th:src="@{${rec3.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
@@ -132,10 +157,14 @@
 						<del><span style="color: black; font-weight: bold">$[[${rec3.sellingPrice}]]</span></del>
 						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${rec3.discountSellingPrice}]]</span>
 					</div>
+					<div class="col text-center">
+						<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+							th:value="${rec3.averageRating}" />
+					</div>
 				</div>
 			</div>
 			<div class="col-3">
-				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:380px">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:420px">
 					<a class="d-flex flex-column align-items-center justify-content-center" 
 						th:href="@{'/product/' + ${rec4.endURL}}">
 						<img th:src="@{${rec4.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
@@ -148,6 +177,10 @@
 					<div th:if="${rec4.discount > 0}">
 						<del><span style="color: black; font-weight: bold">$[[${rec4.sellingPrice}]]</span></del>
 						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${rec4.discountSellingPrice}]]</span>
+					</div>
+					<div class="col text-center">
+						<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+							th:value="${rec4.averageRating}" />
 					</div>
 				</div>
 			</div>
@@ -214,5 +247,12 @@ function addToCart(){
 		alert("Some errors occur! Please try again later.");
 	});
 }
+
+$(".product-detail-rating-star").rating({
+	displayOnly: true,
+	hoverOnClear: false,
+	showCaption: false,
+	theme: "krajee-svg"
+})
 </script>
 </html>

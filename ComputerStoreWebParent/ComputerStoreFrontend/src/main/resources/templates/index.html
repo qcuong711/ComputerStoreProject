@@ -2,6 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="header :: page_head('Computer Store - Home')"></head>
+<head>
+	<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/js/star-rating.js}"></script>
+	<link th:href="@{/star-rating/themes/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css"></link>
+	<script th:src="@{/star-rating/themes/krajee-svg/theme.js}"></script>
+</head>
 <body>
 
 <div th:replace="navbar :: navbar"></div>
@@ -58,7 +64,7 @@
 		</div>
 		<div class="row">
 			<div class="col-4">
-				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:420px">
 					<a class="d-flex flex-column align-items-center justify-content-center" 
 						th:href="@{'/product/' + ${topSeller1.endURL}}">
 						<img th:src="@{${topSeller1.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
@@ -72,10 +78,14 @@
 						<del><span style="color: black; font-weight: bold">$[[${topSeller1.sellingPrice}]]</span></del>
 						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${topSeller1.discountSellingPrice}]]</span>
 					</div>
+					<div class="col text-center">
+						<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+							th:value="${topSeller1.averageRating}" />
+					</div>
 				</div>
 			</div>
 			<div class="col-4">
-				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:420px">
 					<a class="d-flex flex-column align-items-center justify-content-center" 
 						th:href="@{'/product/' + ${topSeller2.endURL}}">
 						<img th:src="@{${topSeller2.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
@@ -89,10 +99,14 @@
 						<del><span style="color: black; font-weight: bold">$[[${topSeller2.sellingPrice}]]</span></del>
 						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${topSeller2.discountSellingPrice}]]</span>
 					</div>
+					<div class="col text-center">
+						<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+							th:value="${topSeller2.averageRating}" />
+					</div>
 				</div>
 			</div>
 			<div class="col-4">
-				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:420px">
 					<a class="d-flex flex-column align-items-center justify-content-center" 
 						th:href="@{'/product/' + ${topSeller3.endURL}}">
 						<img th:src="@{${topSeller3.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
@@ -106,6 +120,10 @@
 						<del><span style="color: black; font-weight: bold">$[[${topSeller3.sellingPrice}]]</span></del>
 						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${topSeller3.discountSellingPrice}]]</span>
 					</div>
+					<div class="col text-center">
+						<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+							th:value="${topSeller3.averageRating}" />
+					</div>
 				</div>
 			</div>
 		</div>
@@ -115,7 +133,7 @@
 		</div>
 		<div class="row">
 			<div class="col-4">
-				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:420px">
 					<a class="d-flex flex-column align-items-center justify-content-center" 
 						th:href="@{'/product/' + ${recProduct1.endURL}}">
 						<img th:src="@{${recProduct1.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
@@ -129,10 +147,14 @@
 						<del><span style="color: black; font-weight: bold">$[[${recProduct1.sellingPrice}]]</span></del>
 						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${recProduct1.discountSellingPrice}]]</span>
 					</div>
+					<div class="col text-center">
+						<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+							th:value="${recProduct1.averageRating}" />
+					</div>
 				</div>
 			</div>
 			<div class="col-4">
-				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:420px">
 					<a class="d-flex flex-column align-items-center justify-content-center" 
 						th:href="@{'/product/' + ${recProduct2.endURL}}">
 						<img th:src="@{${recProduct2.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
@@ -146,10 +168,14 @@
 						<del><span style="color: black; font-weight: bold">$[[${recProduct2.sellingPrice}]]</span></del>
 						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${recProduct2.discountSellingPrice}]]</span>
 					</div>
+					<div class="col text-center">
+						<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+							th:value="${recProduct1.averageRating}" />
+					</div>
 				</div>
 			</div>
 			<div class="col-4">
-				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:350px">
+				<div class="d-flex flex-column align-items-center justify-content-center border rounded" style="height:420px">
 					<a class="d-flex flex-column align-items-center justify-content-center" 
 						th:href="@{'/product/' + ${recProduct3.endURL}}">
 						<img th:src="@{${recProduct3.avatarPath}}" class="pt-3" style="max-width: 150px; max-height: 220px;">
@@ -162,6 +188,10 @@
 					<div th:if="${recProduct3.discount > 0}">
 						<del><span style="color: black; font-weight: bold">$[[${recProduct3.sellingPrice}]]</span></del>
 						<span style="color: blue; font-weight: bold">&nbsp; &nbsp; $[[${recProduct3.discountSellingPrice}]]</span>
+					</div>
+					<div class="col text-center">
+						<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" 
+							th:value="${recProduct1.averageRating}" />
 					</div>
 				</div>
 			</div>
@@ -211,4 +241,12 @@
 
 </body>
 <script th:src="@{/js/all.js}"></script>
+<script type="text/javascript">
+$(".product-detail-rating-star").rating({
+	displayOnly: true,
+	hoverOnClear: false,
+	showCaption: false,
+	theme: "krajee-svg"
+})
+</script>
 </html>
