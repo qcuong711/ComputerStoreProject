@@ -2,6 +2,8 @@ package com.qcuong.product;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.qcuong.category.CategoryService;
 import com.qcuong.common.entity.Category;
+import com.qcuong.common.entity.Customer;
 import com.qcuong.common.entity.Product;
+import com.qcuong.common.entity.Review;
+import com.qcuong.customer.CustomerService;
+import com.qcuong.review.ReviewService;
 
 @Controller
 public class ProductController {
@@ -23,6 +29,12 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
+	@Autowired
+	private ReviewService reviewService;
+	
+	@Autowired
+	private CustomerService customerService;
+		
 	@GetMapping("/category/{category_endURL}")
 	public String viewCategoryFirstPage(@PathVariable("category_endURL") String endURL, Model model) {
 		return viewCategoryByPage(endURL, model, 1);
@@ -37,6 +49,7 @@ public class ProductController {
 		List<Category> categoryParents = categoryService.getCatParent(category);
 		Page<Product> pageProducts = productService.listByCategory(pageNum, category.getId());
 		List<Product> listProducts = pageProducts.getContent();
+		
 		
 		long startCount = (pageNum - 1) + ProductService.PRODUCTS_PER_PAGE + 1;
 		long endCount = startCount + ProductService.PRODUCTS_PER_PAGE - 1;
@@ -60,11 +73,29 @@ public class ProductController {
 	}
 	
 	@GetMapping("/product/{product_endURL}")
-	public String viewProductDetail(@PathVariable("product_endURL") String endURL, Model model) {
+	public String viewProductDetail(@PathVariable("product_endURL") String endURL, Model model, HttpServletRequest request) {
+		
+		
 		Product product = productService.getProduct(endURL);
 		
 		model.addAttribute("product", product);
 		model.addAttribute("PageTitle", product.getName());
+		Page<Review> listReviews = reviewService.listRecentReview(product);
+				
+		
+		
+		try {
+			Customer customer = getCurrentCustomer(request);
+			boolean checkCustomerHasReviewed = reviewService.checkCustomerHasReviewed(customer, product.getId());
+			
+			if(checkCustomerHasReviewed) {
+				model.addAttribute("customerReviewed", checkCustomerHasReviewed);
+			} else {
+				boolean checkCustomerCanReview = reviewService.checkCustomerCanReview(customer, product.getId());
+				model.addAttribute("customerCanReview", checkCustomerCanReview);
+			}
+		} catch(Exception e) {
+		}
 		
 		//recommend product
 		int rd1 = (int)(Math.random()*5) + 7;
@@ -86,6 +117,7 @@ public class ProductController {
 		model.addAttribute("rec2", rec2);
 		model.addAttribute("rec3", rec3);
 		model.addAttribute("rec4", rec4);
+		model.addAttribute("listReviews", listReviews);
 		
 		return "product_detail";
 	}
@@ -121,6 +153,13 @@ public class ProductController {
 		model.addAttribute("totalItems", pageProducts.getTotalElements());
 		
 		return "search_result";
+	}
+	
+	public Customer getCurrentCustomer(HttpServletRequest request) {
+		String currentEmail = null;
+		currentEmail = request.getUserPrincipal().getName();
+		
+		return customerService.getByEmail(currentEmail);
 	}
 	
 }

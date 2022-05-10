@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="header :: page_head('Cart')"></head>
+<head th:replace="header :: page_head('Order List')"></head>
 <body>
 
 <div th:replace="navbar :: navbar"></div>
@@ -21,35 +21,21 @@
 						<th>Shipping</th>
 						<th>Total</th>
 						<th>Status</th>
-						<th>Tracking</th>
+						<th>Detail</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="order : ${orders}">
 						<td class="text-center">[[${order.id}]]</td>
-						<td><p th:each="proName : ${order.productList}">[[${proName}]]</p></td>	
-						<td class="text-center">[[${order.shippingCost}]]$</td>
-						<td class="text-center">[[${order.total}]]$</td>
-						<td class="text-center">[[${order.status}]]</td>
-						<td>
-							<div class="row mt-1">
-								<div class="col-md-12">
-									<ul class="stepper stepper-vertical">
-										<li>
-										    <p class="circle"><b>NEW</b> ([[${order.orderTime}]])</p>
-										    <p class="label">Your order has been placed</p>
-										</li>
-										<th:block th:each="track : ${order.orderTracks}">
-										<li class="active">
-											<p class="circle"><b>[[${track.status}]]</b> ([[${track.updateTime}]])</p>
-											<p class="label">[[${track.notes}]]</p>
-										</li>
-										</th:block>
-									</ul>					
-								</div>
-							</div>
+						<td><p th:each="proName : ${order.productAll}">[[${proName}]]</p></td>	
+						<td class="text-center">$[[${order.shippingCost}]]</td>
+						<td class="text-center">$[[${order.total}]]</td>
+						<td class="text-center">
+							<p>[[${order.status}]]</p>
 						</td>
-						
+						<td class="text-center">
+							<a th:href="@{'/orders/detail/' + ${order.id}}"><i class="fas fa-info-circle"></i></a>
+						</td>
 					</tr>
 				</tbody>
 			</table>

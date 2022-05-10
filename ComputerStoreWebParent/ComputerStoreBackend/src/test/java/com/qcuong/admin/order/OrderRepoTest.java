@@ -1,5 +1,8 @@
 package com.qcuong.admin.order;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -105,7 +108,6 @@ public class OrderRepoTest {
 		
 	}
 	
-	@Test
 	public void testUpdateOrder() {
 		Integer orderId = 5;
 		Order order = repo.findById(orderId).get();
@@ -122,5 +124,17 @@ public class OrderRepoTest {
 		tracks.add(newTrack);
 		repo.save(order);
 	}
-	
+		
+	public void testFindByTime() throws ParseException {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		Date st = df.parse("2022-03-01");
+		Date ed = df.parse("2022-05-08");
+		
+		List<Order> orders = repo.findByOrderTimeBetween(st, ed);
+		
+		for(Order order : orders) {
+			System.out.printf("%s | %s | %.2f | %.2f \n", order.getId(), order.getOrderTime(), order.getCartTotal(),
+					order.getTotal());
+		}
+	}
 }

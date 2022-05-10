@@ -38,6 +38,9 @@
 					<li class="nav-item" style="margin:auto" sec:authorize="hasAnyAuthority('Admin', 'Employee')">
 						<a class="nav-link font-weight-bold" th:href="@{/reviews}">Reviews</a>
 					</li>
+					<li class="nav-item" style="margin:auto" sec:authorize="hasAuthority('Admin')">
+						<a class="nav-link font-weight-bold" th:href="@{/reports}">Reports</a>
+					</li>
 					
 				</ul>
 			</div>

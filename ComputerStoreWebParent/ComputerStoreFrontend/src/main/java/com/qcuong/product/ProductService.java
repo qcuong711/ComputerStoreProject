@@ -28,6 +28,11 @@ public class ProductService {
 		return product;
 	}
 	
+	public Product getProduct(Integer id) {
+		Product product = repo.findById(id).get();
+		return product;
+	}
+	
 	public Page<Product> search(String keyword, int pageNum) {
 		Pageable pageable = PageRequest.of(pageNum - 1, PRODUCTS_PER_PAGE);
 		

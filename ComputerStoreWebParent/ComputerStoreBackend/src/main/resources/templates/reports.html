@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="header :: page_head('Computer Store Admin - Reports')"></head>
+<body>
+<div th:replace="navbar :: navbar"></div>
+
+<div>
+	<h2 class="text-center">Reports</h2>
+</div>
+
+<div>
+	<ul class="nav nav-pills nav-justified pl-3 pr-3" id="reportTab" role="tablist">
+		<li class="nav-item">
+			<a class="nav-link font-weight-bold active" data-toggle="tab" href="#date" role="tab">Reports By Date</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link font-weight-bold" data-toggle="tab" href="#category" role="tab">Reports By Categories</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link font-weight-bold" data-toggle="tab" href="#product" role="tab">Reports By Brands</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane active pl-3 pr-3 pt-4" id="date" role="tabpanel">
+			<div>
+				<div>
+					<button class="btn btn-primary"> Last 7 days</button>
+				</div>
+				<div id="chart_by_date" class="mt-3"></div>
+				<div class="row">
+					<div class="col-2">
+						<div class="card">
+							<div class="card-header"><b>Total</b></div>
+							<div class="card-body">
+								<span class="h3" id="textTotal"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-2">
+						<div class="card">
+							<div class="card-header"><b>Avg Total</b></div>
+							<div class="card-body">
+								<span class="h3" id="textAvgTotal"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-2">
+						<div class="card">
+							<div class="card-header"><b>Total Orders</b></div>
+							<div class="card-body">
+								<span class="h3" id="textOrders"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div class="tab-pane pl-3 pr-3 pt-4" id="category" role="tabpanel">
+			<div>
+				<div>
+					<button class="btn btn-primary"> Last</button>
+				</div>
+				
+			</div>
+		</div>
+		<div class="tab-pane pl-3 pr-3 pt-4" id="product" role="tabpanel">
+			<div>
+				<p>Hello worlds 3</p>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+contextPath = "[[@{/}]]";
+$(document).ready(function(){
+	google.charts.load('current', {'packages': ['corechart']});
+	google.charts.setOnLoadCallback(loadSalesReportByDate);
+})
+
+var data;
+var chartOptions;
+var totalTotalSelling;
+var totalOrders;
+
+function loadSalesReportByDate() {
+	requestURL = contextPath + "report/sales_by_dates/last_7_days";
+	$.get(requestURL, function(responseJSON) {
+		prepareChartData();
+		customizeChart();
+		drawChart();
+	});
+	
+function prepareChartData(responseJSON) {
+	data = new google.visualization.DataTable();
+	data.addColumn('string', 'Date');
+	data.addColumn('number', 'Total Selling');
+	data.addColumn('number', 'Orders');
+	
+	$.each(responseJSON, function(index, reportItem) {
+		data.addRows([[reportItem.identifier, reportItem.totalSelling, reportItem.orderCount]])
+		totalTotalSelling += parseFloat(reportItem.totalSelling);
+		totalOrders += parseFloat(reportItem.orderCount);
+	});
+}
+
+function customizeChart() {
+	chartOptions = {
+		title: 'Last 7 days',
+		'height': 360,
+		legend:{position: 'top'},
+		series: {
+			0: {targetAxisIndex: 0},
+			1: {targetAxisIndex: 0},
+			2: {targetAxisIndex: 1},
+		},
+		
+		vAxes: {
+			0: {title: 'Amount', format: 'currency'},
+			1: {title: 'Numbers of Orders'}
+		}
+	};
+	
+	var formatter = new google.visualization.NumberFormat({
+		prefix: '$'
+	});
+	
+	formatter.format(data, 1);
+	formatter.format(data, 2);
+}
+
+function drawChart() {
+	var chart = new new google.visualization.ColumnChart(document.getElementById('chart_by_date'));
+	chart.draw(data, chartOptions);
+}
+
+}
+</script>
+<script th:src="@{/js/all.js}"></script>
+</body>
+</html>

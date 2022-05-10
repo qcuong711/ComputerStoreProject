@@ -65,6 +65,17 @@ public class Order {
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private List<OrderTrack> orderTracks = new ArrayList<>();
+	
+	public Order() {
+		
+	}
+	
+	public Order(Integer id, Date orderTime, float cartTotal, float total) {
+		this.id = id;
+		this.orderTime = orderTime;
+		this.cartTotal = cartTotal;
+		this.total = total;
+	}
 
 	public Integer getId() {
 		return id;
@@ -218,7 +229,19 @@ public class Order {
 		
 		for (OrderDetail detail : orderDetails) {
 			String productName = "- " + detail.getProduct().getName() 
-					+ " X " + detail.getQuantity() + " = " + detail.getUnitPrice() + "$";
+					+ " X " + detail.getQuantity() + " = $" + detail.getUnitPrice();
+			lists.add(productName);
+		}
+		
+		return lists;
+	}
+	
+	@Transient
+	public List<String> getProductAll() {
+		List<String> lists = new ArrayList<>();
+		
+		for (OrderDetail detail : orderDetails) {
+			String productName = "- " + detail.getProduct().getName();
 			lists.add(productName);
 		}
 		

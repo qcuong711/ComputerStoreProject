@@ -1,5 +1,6 @@
 package com.qcuong.order;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.qcuong.common.entity.Customer;
 import com.qcuong.common.entity.Order;
+import com.qcuong.common.entity.OrderDetail;
+import com.qcuong.common.entity.Product;
 import com.qcuong.customer.CustomerService;
+import com.qcuong.review.ReviewService;
 
 @Controller
 public class OrderController {
@@ -23,6 +27,9 @@ public class OrderController {
 	
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private ReviewService reviewService;
 	
 	@GetMapping("/cusOrder") 
 	public String listFirstPage(Model model, HttpServletRequest request) {
@@ -53,6 +60,36 @@ public class OrderController {
 		return "cusOrder";
 	}
 	
+	@GetMapping("/orders/detail/{id}")
+	public String orderDetail(Model model,  @PathVariable(name="id") Integer id, HttpServletRequest request) {
+		Customer customer = getCurrentCustomer(request);
+		Order order = orderService.getOrder(id, customer);		
+		
+		setProductReviewableStatus(customer, order);
+		
+		model.addAttribute("order", order);
+		
+		return "order_detail";
+	}
+	
+	private void setProductReviewableStatus(Customer customer, Order order) {
+		Iterator<OrderDetail> iterator = order.getOrderDetails().iterator();
+		
+		while(iterator.hasNext()) {
+			OrderDetail detail = iterator.next();
+			Product product = detail.getProduct();
+			Integer productId = product.getId();
+			
+			boolean checkReviewed = reviewService.checkCustomerHasReviewed(customer, productId);
+			product.setReviewedByCustomer(checkReviewed);
+			
+			if(!checkReviewed) {
+				boolean checkReviewAvailable = reviewService.checkCustomerCanReview(customer, productId);
+				product.setCustomerCanReview(checkReviewAvailable);
+			}
+		}
+	}
+
 	public Customer getCurrentCustomer(HttpServletRequest request) {
 		String currentEmail = null;
 		currentEmail = request.getUserPrincipal().getName();

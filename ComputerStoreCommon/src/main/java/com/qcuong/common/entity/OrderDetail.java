@@ -28,6 +28,25 @@ public class OrderDetail {
 	@ManyToOne
 	@JoinColumn(name = "order_id")
 	private Order order;
+	
+	public OrderDetail(String categoryName, int quantity, float productCost, float unitPrice) {
+		this.product = new Product();
+		this.product.setCategory(new Category(categoryName));
+		this.quantity = quantity;
+		this.productCost = productCost;
+		this.unitPrice = unitPrice;
+	}
+	
+	public OrderDetail(int quantity, String productName, float productCost, float unitPrice) {
+		this.product = new Product(productName);
+		this.quantity = quantity;
+		this.productCost = productCost;
+		this.unitPrice = unitPrice;
+	}
+	
+	public OrderDetail() {
+		
+	}
 
 	public Integer getId() {
 		return id;
