@@ -108,6 +108,7 @@ public class OrderRepoTest {
 		
 	}
 	
+	
 	public void testUpdateOrder() {
 		Integer orderId = 5;
 		Order order = repo.findById(orderId).get();
@@ -125,6 +126,7 @@ public class OrderRepoTest {
 		repo.save(order);
 	}
 		
+	@Test
 	public void testFindByTime() throws ParseException {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date st = df.parse("2022-03-01");

@@ -8,10 +8,12 @@
 	<div class="d-flex align-items-center justify-content-center mt-2">
 		<h2>Customers List</h2>
 	</div>
+	<!-- 
 	<div class="d-flex align-items-center justify-content-center mb-2" style="width: 150px; margin: 0 auto;">
 		<a class="btn btn-primary" th:href="@{/customers/new}">Create Customer</a>
 	</div>
-	
+	 -->
+
 	<div th:if="${message != null}" class="alert alert-success text-center">[[${message}]]</div>
 	
 	<div>
@@ -49,8 +51,11 @@
 					<td>[[${customer.postalCode}]]</td>
 					<!-- <td><span class="fas fa-customer-circle fa-1x"></span></td> -->
 					<td>
+						<!-- 
 						<a class="fas fa-edit fa-1x" th:href="@{'/customers/edit/' + ${customer.id}}" title="Edit customer"></a>
 						&nbsp; 
+						 -->
+						
 						<a class="fas fa-trash-alt fa-1x link-delete" style="color: red" th:customerId="${customer.id}" 
 							th:href="@{'/customers/delete/' + ${customer.id}}" title="Delete customer"></a>
 					</td>

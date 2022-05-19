@@ -61,4 +61,14 @@ public class CustomerService {
 	public List<Customer> listCustomersInForm() {
 		return (List<Customer>) customerRepo.findAll();
 	}
+	
+	public boolean isEmailUnique(String email) {
+		Customer customerByEmail = customerRepo.getCustomerByEmail(email);
+		
+		if (customerByEmail == null) {
+			return true;
+		} else {
+			return false; 
+		}
+	}
 }

@@ -20,13 +20,13 @@ public class MasterOrderReportService {
 	private OrderRepository orderRepo;
 	
 	private DateFormat dateFormatter;
-	
-	public List<ReportItem> getReportLast7Days(){
+	 
+	public List<ReportItem> getReportDataLast7Days(){
 		System.out.println("Report 7 days data:");
-		return getReportData(7);
+		return getReportDataLastXDays(7);
 	}
 
-	public List<ReportItem> getReportData(int days) {
+	public List<ReportItem> getReportDataLastXDays(int days) {
 		Date endTime = new Date();
 		Calendar ca = Calendar.getInstance();
 		ca.add(Calendar.DAY_OF_MONTH, -(days - 1));
@@ -37,47 +37,26 @@ public class MasterOrderReportService {
 		
 		dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		
-		return getReportByDateRange(startTime, endTime);
+		return getReportDataByDateRange(startTime, endTime);
 	}
 	
-	private List<ReportItem> getReportByDateRange(Date startTime, Date endTime) {
+	private List<ReportItem> getReportDataByDateRange(Date startTime, Date endTime) {
 		List<Order> listOrders = orderRepo.findByOrderTimeBetween(startTime, endTime);
 		printRawData(listOrders);
 		
-		List<ReportItem> items = createReportData(startTime, endTime);
+		List<ReportItem> listReportItems = createReportData(startTime, endTime);
 		
-		calculateSalesForReportData(listOrders, items);
-		printReportData(items);
+		calculateSalesForReportData(listOrders, listReportItems);
 		
-		return null;
-	}
-
-	private void calculateSalesForReportData(List<Order> listOrders, List<ReportItem> items) {
-		for(Order order : listOrders) {
-			String OrderDateString = dateFormatter.format(order.getOrderTime());
-			
-			ReportItem rItem = new ReportItem(OrderDateString);
-			
-			int itemIndex = items.indexOf(rItem);
-			
-			if(itemIndex >= 0) {
-				rItem = items.get(itemIndex);
-				
-				rItem.addTotalSelling(order.getTotal());
-				rItem.increaseOrderCount();
-			}
-		}
-	}
-
-	private void printReportData(List<ReportItem> items) {
-		items.forEach(item -> {
-			System.out.printf("%s \n", item.getIdentifier());
-		});
+		System.out.println();
 		
+		printReportData(listReportItems);
+		
+		return listReportItems;
 	}
-
+	
 	private List<ReportItem> createReportData(Date startTime, Date endTime) {
-		List<ReportItem> items = new ArrayList<>();
+		List<ReportItem> listReportItems = new ArrayList<>();
 		
 		Calendar startDate = Calendar.getInstance();
 		startDate.setTime(startTime);
@@ -88,24 +67,50 @@ public class MasterOrderReportService {
 		Date currentDate = startDate.getTime();
 		String dateString = dateFormatter.format(currentDate);
 		
-		items.add(new ReportItem(dateString));
+		listReportItems.add(new ReportItem(dateString));
 		
 		do {
 			startDate.add(Calendar.DAY_OF_MONTH, 1);
 			currentDate = startDate.getTime();
 			dateString = dateFormatter.format(currentDate);
 			
-			items.add(new ReportItem(dateString));
+			listReportItems.add(new ReportItem(dateString));
 		} while (startDate.before(endDate));
 		
-		return items;
+		return listReportItems;
+		
+	}
+
+	private void calculateSalesForReportData(List<Order> listOrders, List<ReportItem> listReportItems) {
+		for(Order order : listOrders) {
+			String orderDateString = dateFormatter.format(order.getOrderTime());
+			
+			ReportItem reportItem = new ReportItem(orderDateString);
+			
+			int itemIndex = listReportItems.indexOf(reportItem);
+			
+			if(itemIndex >= 0) {
+				reportItem = listReportItems.get(itemIndex);
+				
+				reportItem.addTotalSelling(order.getTotal());
+				//rItem.addProfit();
+				reportItem.increaseOrderCount();
+			}
+		}
+	}
+
+	private void printReportData(List<ReportItem> items) {
+		items.forEach(item -> {
+			System.out.printf("%s, %10.2f, %d \n", item.getIdentifier(), item.getTotalSelling(), item.getOrderCount());
+		});
 		
 	}
 
 	private void printRawData(List<Order> listOrders) {
 		listOrders.forEach(order -> {
-			System.out.printf("%-3d | %s | %10.2f | %10.2 \n", order.getId(), order.getOrderTime(), 
-					order.getTotal(), order.getCartTotal());
+			System.out.printf("%-3d | %s | %10.2f | %10.2f \n", order.getId(), order.getOrderTime(), 
+					order.getCartTotal(), order.getTotal());
 		}) ;
 	}
+	
 }

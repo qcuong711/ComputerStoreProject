@@ -13,7 +13,7 @@ import com.qcuong.common.entity.Customer;
 
 @Service
 public class CustomerService {
-public static final int CUSTOMERS_PER_PAGE = 10;
+public static final int CUSTOMERS_PER_PAGE = 6;
 	
 	@Autowired
 	private CustomerRepository repo;

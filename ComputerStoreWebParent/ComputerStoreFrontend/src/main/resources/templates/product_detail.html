@@ -12,6 +12,30 @@
 
 <div th:replace="navbar :: navbar"></div>
 
+<div class="row ml-2 mr-2">
+	<div class="col pl-2 ml-2 mt-2">
+		<div th:if="${categoryParents != null && !categoryParents.empty}">
+			<div class="row">
+				<div class="col">
+					<nav>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a th:href="@{/}">Home</a>
+							</li>
+							
+							<th:block th:each="parent : ${categoryParents}">
+							<li class="breadcrumb-item">
+								<a th:href="@{'/category/' + ${parent.endURL}}">[[${parent.name}]]</a>
+							</li>
+							</th:block>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="row pt-3 pl-3 pb-5 pr-3">
 	<input type="hidden" th:id="'maxQty' + ${product.id}" th:value="${product.quantity}" />
 	<div class="col-sm-4 text-center">
@@ -224,6 +248,28 @@
 	</div>
 	<div class="col-sm-1"></div>
 </div>
+
+<script>!(function () {
+  let e = document.createElement("script"),
+    t = document.head || document.getElementsByTagName("head")[0];
+  (e.src =
+    "https://cdn.jsdelivr.net/npm/rasa-webchat/lib/index.js"),
+    // Replace 1.x.x with the version that you want
+    (e.async = !0),
+    (e.onload = () => {
+      window.WebChat.default(
+        {
+          initPayload: '/greet',
+          customData: { language: "en" },
+          socketUrl: "http://localhost:5005",
+          // add other props here
+        },
+        null
+      );
+    }),
+    t.insertBefore(e, t.firstChild);
+})();
+</script>
 
 <div th:replace="footer :: footer"></div>
 

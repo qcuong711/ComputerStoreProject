@@ -77,11 +77,13 @@ public class ProductController {
 		
 		
 		Product product = productService.getProduct(endURL);
+		List<Category> listParents = categoryService.getCatParent(product.getCategory());
+		model.addAttribute("categoryParents", listParents);
 		
 		model.addAttribute("product", product);
 		model.addAttribute("PageTitle", product.getName());
 		Page<Review> listReviews = reviewService.listRecentReview(product);
-				
+		
 		
 		
 		try {
