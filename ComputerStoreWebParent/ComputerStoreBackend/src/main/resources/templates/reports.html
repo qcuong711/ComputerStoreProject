@@ -9,80 +9,55 @@
 	<h2 class="text-center">Reports</h2>
 </div>
 
-<div>
-	<ul class="nav nav-pills nav-justified pl-3 pr-3" id="reportTab" role="tablist">
-		<li class="nav-item">
-			<a class="nav-link font-weight-bold active" data-toggle="tab" href="#date" role="tab">Reports By Date</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link font-weight-bold" data-toggle="tab" href="#category" role="tab">Reports By Categories</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link font-weight-bold" data-toggle="tab" href="#product" role="tab">Reports By Brands</a>
-		</li>
-	</ul>
-
-	<div class="tab-content">
-		
-		<div class="tab-pane active pl-3 pr-3 pt-4" id="date" role="tabpanel">
-			<div>
-				<div>
-					<button class="btn btn-primary">Last 7 days</button>
-				</div>
-				<div id="chart_sales_by_date" class="mt-3"></div>
+<div>		
+	<div class="pl-3 pr-3 pt-4" id="date">
+		<div>
+			<div class="text-center">
+				<button period="last_7_days" class="btn btn-primary button-sales-by-date">Last 7 days</button>
+				<button period="last_30_days" class="btn btn-primary button-sales-by-date">Last 30 days</button>
+				<button period="last_12_months" class="btn btn-primary button-sales-by-date">Last 12 months</button>
+			</div>
+			<div id="chart_sales_by_date" class="mt-3"></div>
+			
+			<div style="padding-left: 160px" class="pt-1">
 				<div class="row">
-					<div class="col-2">
+					<div class="col-3">
 						<div class="card">
-							<div class="card-header"><b>Total</b></div>
-							<div class="card-body">
+							<div class="card-header text-center"><b>Total</b></div>
+							<div class="card-body text-center">
 								<span class="h3" id="textTotal"></span>
 							</div>
 						</div>
 					</div>
-					<div class="col-2">
+					<div class="col-3">
 						<div class="card">
-							<div class="card-header"><b>Avg Total</b></div>
-							<div class="card-body">
+							<div class="card-header text-center"><b>Average Per Day</b></div>
+							<div class="card-body text-center">
 								<span class="h3" id="textAvgTotal"></span>
 							</div>
 						</div>
 					</div>
-					<div class="col-2">
+					<div class="col-3">
 						<div class="card">
-							<div class="card-header"><b>Total Orders</b></div>
-							<div class="card-body">
+							<div class="card-header text-center"><b>Total Orders</b></div>
+							<div class="card-body text-center">
 								<span class="h3" id="textOrders"></span>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		
-		
-		
-		<div class="tab-pane pl-3 pr-3 pt-4" id="category" role="tabpanel">
-			<div>
-				<div>
-					<button class="btn btn-primary"> Last</button>
-				</div>
-				
-			</div>
-		</div>
-		<div class="tab-pane pl-3 pr-3 pt-4" id="product" role="tabpanel">
-			<div>
-				<p>Hello worlds 3</p>
-			</div>
+			</div>		
 		</div>
 	</div>
 </div>
+
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
 
 	contextPath = "[[@{/}]]";
-	$(document).ready(function(){
+	$(document).ready(function() {
 		google.charts.load('current', {'packages': ['corechart']});
 		google.charts.setOnLoadCallback(loadSalesReportByDate);
 	});
@@ -92,5 +67,6 @@
 </script>
 <script th:src="@{/js/all.js}"></script>
 <script th:src="@{/js/reports.js}"></script>
+<script th:src="@{/js/jquery.number.min.js}"></script>
 </body>
 </html>

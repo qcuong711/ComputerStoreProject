@@ -3,13 +3,20 @@ var chartOptions;
 var totalTotalSelling;
 var totalOrders;
 
-function loadSalesReportByDate() {
-	requestURL = contextPath + "reports/sales_by_date/last_7_days";
+$(document).ready(function() {
+	$(".button-sales-by-date").on("click", function(){
+		period = $(this).attr("period");
+		loadSalesReportByDate(period);
+	});
+});
+
+function loadSalesReportByDate(period) {
+	requestURL = contextPath + "reports/sales_by_date/" + period;
 	
 	$.get(requestURL, function(responseJSON) {
 		prepareChartData(responseJSON);
-		customizeChart();
-		drawChart();	
+		customizeChart(period);
+		drawChart(period);	
 	});
 }
 
@@ -19,6 +26,9 @@ function prepareChartData(responseJSON) {
 	data.addColumn('number', 'Total');
 	data.addColumn('number', 'Orders');
 	
+	totalTotalSelling = 0.0;
+	totalOrders = 0;
+	
 	$.each(responseJSON, function(index, reportItem) {
 		data.addRows([[reportItem.identifier, reportItem.totalSelling, reportItem.orderCount]]);
 		totalTotalSelling += parseFloat(reportItem.totalSelling);
@@ -26,9 +36,9 @@ function prepareChartData(responseJSON) {
 	});
 }
 
-function customizeChart() {
+function customizeChart(period) {
 	chartOptions = {
-		title: 'Last 7 days',
+		title: getChartTitle(period),
 		'height': 360,
 		legend: {position: 'top'},
 		
@@ -50,7 +60,29 @@ function customizeChart() {
 	formatter.format(data, 1);
 }
 
-function drawChart() {
+function drawChart(period) {
 	var chart = new google.visualization.ColumnChart(document.getElementById('chart_sales_by_date'));
 	chart.draw(data, chartOptions);
+	
+	days = getDays(period);
+	
+	$("#textTotal").text("$" + $.number(totalTotalSelling, 2));
+	$("#textAvgTotal").text("$" + $.number(totalTotalSelling / days, 2));	
+	$("#textOrders").text(totalOrders);
+}
+
+function getChartTitle(period) {
+	if(period == "last_7_days") return "Last 7 days";
+	if(period == "last_30_days") return "Last 30 days";
+	if(period == "last_12_months") return "Last 12 months";
+	
+	return "Last_7_days";
+}
+
+function getDays(period) {
+	if(period == "last_7_days") return 7;
+	if(period == "last_30_days") return 30;
+	if(period == "last_12_months") return 365;
+	
+	return 7;
 }

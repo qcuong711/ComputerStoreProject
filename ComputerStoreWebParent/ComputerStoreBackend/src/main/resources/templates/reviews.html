@@ -71,7 +71,7 @@
 					<td style="vertical-align: middle">[[${review.comment}]]</td>
 					<td style="vertical-align: middle">
 						<a class="fas fa-trash-alt fa-1x link-delete" th:href="@{'/reviews/delete/' + ${review.id}}" 
-						style="color: red"	title="Order Delete"></a>
+						style="color: red"	title="Delete"></a>
 					</td>
 				</tr>
 			</tbody>
@@ -132,7 +132,6 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Confirm delete</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
@@ -154,7 +153,7 @@
 			e.preventDefault();
 			link = $(this);
 			$("#yesButton").attr("href", link.attr("href"));
-			$("#confirmText").text("Delete this product?");
+			$("#confirmText").text("Delete this review?");
 			$("#confirmModal").modal();
 		});
 	});

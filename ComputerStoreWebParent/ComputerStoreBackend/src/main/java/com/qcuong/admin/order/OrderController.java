@@ -81,12 +81,13 @@ public class OrderController {
 	
 	
 	@PostMapping("/ordersTrack/save")
-	private String OrderTracks(Order order, HttpServletRequest request) {
+	private String OrderTracks(Order order, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		
 		String status = request.getParameter("selectStatus");
 		String notes = request.getParameter("selectNotes");
 		
 		service.addTrack(order, status, notes);
+		redirectAttributes.addFlashAttribute("message", "The information has been saved!");
 
 		return "redirect:/orders";
 	}
